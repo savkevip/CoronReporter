@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import { useForm } from 'react-hook-form'
-import { Divider, Button } from '@material-ui/core';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {
+  Divider,
+  Button,
+  Select,
+  InputLabel,
+  TextField,
+  Checkbox,
+  FormControlLabel
+} from '@material-ui/core';
 
 const Container = styled.div`
   padding: 25px;
 `;
 
 export default function Registration() {
-  //check box ne radi ok, preventDefault ne radi, moze da se odradi dobar dry :)
+  // sve pisi na engleskom nazive finkcija i vrednosti samo labele koje se vide na UI na srpskom :)
 
   const {register, handleSubmit } = useForm();
 
@@ -32,6 +35,13 @@ export default function Registration() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  // const [value, setValue] = useState({});
+  // svuda gde ti je value e.target.value mozes samo jedan hook da koristis
+  // value bude prazan objekat
+  // i onda dole pozoves
+  // <Component onChange={e => setValue({ ...value, 'pol': e.target.value })
+  // ovo ...value ti je spread znas vrv u ES6 i tu je da ne bi funckcija izbrisala ostale vrednosti :)
+
   const onSubmit = () => {
     console.log('godine: ', godine)
     console.log('pol: ', pol)
@@ -45,6 +55,9 @@ export default function Registration() {
   }
 
   const handleChangeCheckBox = event => {
+    // gde god da pozivas ovu funciju mozes npr isto da ti bude objekat pa da imas nesto kao
+    // { gender: "male", age: "68", -> pa onda za ovu listu checkboxova -> diseases: { temperature: true, cough: false .... } }
+    console.log(event.target.checked);
     setChecked(event.target.checked);
   };
 
@@ -54,7 +67,8 @@ export default function Registration() {
       <Divider light />
       <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
         <h1>Registration</h1>
-
+        {/* ovo se kaci za id inputa => htmlFor="age-native-simple" nemoj svuda da bude isti */}
+        {/* izbaci brojeve iz pitanja ovo 1. 2. 3. nema potrebe :) */}
         <InputLabel htmlFor="age-native-simple">1. Pol</InputLabel>
         <Select native ref={register} onChange={(e) => setPol(e.target.value)} value={pol}>
           <option aria-label="None" value="" />
@@ -62,14 +76,16 @@ export default function Registration() {
           <option value='zenski'>Ženski</option>
         </Select>
 
+        {/* ovo ces sa flexbox-om da sredis u styled-components/css-u a ne sa <br> */}
         <br></br>
 
         <TextField id="standard-number" value={godine} label="2. Godine" type="number" ref={register} onChange={(e) => setGodine(e.target.value)}/>
 
         <br></br>
-        
+
         <InputLabel htmlFor="age-native-simple">3. Da li ste u drugom stanju?</InputLabel>
         <Select native ref={register} onChange={(e) => setDrugoStanje(e.target.value)} value={drugoStanje}>
+          {/* koristi MenuItem iz material ui-a */}
           <option aria-label="None" value="" />
           <option value='da'>Da</option>
           <option value='ne'>Ne</option>
@@ -195,7 +211,14 @@ export default function Registration() {
         </Select>
         {bolesti === 'da' ?
             <div>
-              <TextField id="standard-basic-op" label="Navedite bolesti" value={vrsteBolesti} ref={register} onChange={(e) => setVrsteBolesti(e.target.value)}/>
+              {/* ovako formatiraj componente kada imas vise props-ova zbog vidljivosti */}
+              <TextField
+                  id="standard-basic-op"
+                  label="Navedite bolesti"
+                  value={vrsteBolesti}
+                  ref={register}
+                  onChange={(e) => setVrsteBolesti(e.target.value)}
+              />
             </div>
           :
           null
@@ -215,6 +238,7 @@ export default function Registration() {
         <TextField id="standard-basic-password" label="Lozinka" type='password' ref={register} onChange={(e) => setPassword(e.target.value)} value={password}/>
 
         <br></br>
+        {/* button neki malo mocniji ajmoo :D :D */}
         <Button type='submit'>Potvrdi</Button>
       </form>
     </Container>
