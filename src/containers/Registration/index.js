@@ -17,6 +17,7 @@ const Container = styled.div`
   padding: 25px;
 `;
 
+// mozes formi da stavis width neki -> na velikom ekranu je ogromno :)
 const Form = styled.div`
 display: flex;
 flex-direction: column;`
@@ -46,6 +47,7 @@ export default function Registration() {
         <h1>Registration</h1>
           <InputLabel htmlFor="gender-native-simple">Pol</InputLabel>
           <Select onChange={(e) => setValue({...value, 'gender': e.target.value})} value={value.gender}>
+            {/*  value isto na engleskom male female*/}
             <MenuItem value='muski'>Muski</MenuItem>
             <MenuItem value='zenski'>Zenski</MenuItem>
           </Select>
@@ -85,6 +87,7 @@ export default function Registration() {
 
         <InputLabel htmlFor="areas-native-simple">Da li ste boravili u rizicnim podrucjima?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'areas': e.target.value})} value={value.areas}>
+          {/*  da ne values -> true false*/}
           <MenuItem value='da'>Da</MenuItem>
           <MenuItem value='ne'>Ne</MenuItem>
         </Select>
@@ -213,6 +216,7 @@ export default function Registration() {
         />
 
       </Form>
+      {/*  ubaci svuda dividere gde treba da se odvoje polja jedno od drugog da izgleda lepse*/}
       <br></br>
       <Button type='submit'
               onClick={onSubmit}
