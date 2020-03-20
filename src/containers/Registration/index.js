@@ -15,16 +15,17 @@ import {
 
 const Container = styled.div`
   padding: 25px;
-`;
+  `;
+// margin-left: 350px;
 
 // mozes formi da stavis width neki -> na velikom ekranu je ogromno :)
 const Form = styled.div`
 display: flex;
-flex-direction: column;`
+flex-direction: column;
+width: 50%;
+`
 
 export default function Registration() {
-
-  //odario sam sve ono. trebalo bi da se ubaci validations, errors and succes message
 
   const [value, setValue] = useState({});
   const [checked, setChecked] = useState({});
@@ -47,19 +48,18 @@ export default function Registration() {
         <h1>Registration</h1>
           <InputLabel htmlFor="gender-native-simple">Pol</InputLabel>
           <Select onChange={(e) => setValue({...value, 'gender': e.target.value})} value={value.gender}>
-            {/*  value isto na engleskom male female*/}
-            <MenuItem value='muski'>Muski</MenuItem>
-            <MenuItem value='zenski'>Zenski</MenuItem>
+            <MenuItem value='male'>Muski</MenuItem>
+            <MenuItem value='female'>Zenski</MenuItem>
           </Select>
 
-          {value.gender === 'zenski' ?
+          {value.gender === 'female' ?
             <div>
                 <InputLabel htmlFor="pregnency-native-simple">Da li ste u drugom stanju?</InputLabel>
                 <Select onChange={(e) => setValue({...value, 'pregnancy': e.target.value})} value={value.pregnancy}>
-                  <MenuItem value='da'>Da</MenuItem>
-                  <MenuItem value='ne'>Ne</MenuItem>
+                  <MenuItem value='true'>Da</MenuItem>
+                  <MenuItem value='false'>Ne</MenuItem>
                 </Select>
-                {value.pregnancy === 'da' ?
+                {value.pregnancy === 'true' ?
                     <div>
                       <TextField
                         id="standard-number"
@@ -87,21 +87,20 @@ export default function Registration() {
 
         <InputLabel htmlFor="areas-native-simple">Da li ste boravili u rizicnim podrucjima?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'areas': e.target.value})} value={value.areas}>
-          {/*  da ne values -> true false*/}
-          <MenuItem value='da'>Da</MenuItem>
-          <MenuItem value='ne'>Ne</MenuItem>
+          <MenuItem value='true'>Da</MenuItem>
+          <MenuItem value='false'>Ne</MenuItem>
         </Select>
 
         <InputLabel htmlFor="contact-native-simple">Da li ste imali kontakt sa zarazenim osobama?</InputLabel>
         <Select  onChange={(e) => setValue({...value, 'contact': e.target.value})} value={value.contact}>
-          <MenuItem value='da'>Da</MenuItem>
-          <MenuItem value='ne'>Ne</MenuItem>
+          <MenuItem value='true'>Da</MenuItem>
+          <MenuItem value='false'>Ne</MenuItem>
         </Select>
 
         <InputLabel htmlFor="smoke-native-simple">Da li ste pusac?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'smoke': e.target.value})} value={value.smoke}>
-          <MenuItem value='da'>Da</MenuItem>
-          <MenuItem value='ne'>Ne</MenuItem>
+          <MenuItem value='true'>Da</MenuItem>
+          <MenuItem value='false'>Ne</MenuItem>
         </Select>
 
         <label>Da li imate neki od navedenih simptoma?</label>
@@ -178,10 +177,10 @@ export default function Registration() {
 
         <InputLabel htmlFor="diseise-native-simple">Da li se lecite od neke hronicne bolesti?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'diseise': e.target.value})} value={value.diseise}>
-          <MenuItem value='da'>Da</MenuItem>
-          <MenuItem value='ne'>Ne</MenuItem>
+          <MenuItem value='true'>Da</MenuItem>
+          <MenuItem value='false'>Ne</MenuItem>
         </Select>
-        {value.diseise === 'da' ?
+        {value.diseise === 'true' ?
             <div>
               <TextField
                   id="standard-basic-op"
@@ -196,8 +195,8 @@ export default function Registration() {
 
         <InputLabel htmlFor="surgery-native-simple">Da li ste imali neke operacije tokom zivota?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'surgery': e.target.value})} value={value.surgery}>
-          <MenuItem value='da'>Da</MenuItem>
-          <MenuItem value='ne'>Ne</MenuItem>
+          <MenuItem value='true'>Da</MenuItem>
+          <MenuItem value='false'>Ne</MenuItem>
         </Select>
 
         <TextField
@@ -216,8 +215,7 @@ export default function Registration() {
         />
 
       </Form>
-      {/*  ubaci svuda dividere gde treba da se odvoje polja jedno od drugog da izgleda lepse*/}
-      <br></br>
+      <Divider />
       <Button type='submit'
               onClick={onSubmit}
               variant="contained"
