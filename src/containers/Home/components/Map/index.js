@@ -13,6 +13,7 @@ const geoUrl =
 
 const markers = [
   { markerOffset: MARKER_OFFSET, name: "Beograd", coordinates: [20.463594, 44.804989] },
+  { markerOffset: MARKER_OFFSET, name: "Pancevo", coordinates: [20.658350, 44.870961] },
   { markerOffset: MARKER_OFFSET, name: "Novi Sad", coordinates: [19.833549, 45.267136] },
   { markerOffset: MARKER_OFFSET, name: "Pristina", coordinates: [21.166191, 42.667542] },
   { markerOffset: MARKER_OFFSET, name: "Sarajevo", coordinates: [18.413029, 43.856430] },
