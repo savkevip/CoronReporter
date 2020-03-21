@@ -12,23 +12,20 @@ import {
   MenuItem
 } from '@material-ui/core';
 
-
 const Container = styled.div`
   padding: 25px;
   width: 800px;
   margin: 0 auto !important;
   `;
 
-// mozes formi da stavis width neki -> na velikom ekranu je ogromno :)
 const Form = styled.div`
 display: flex;
 flex-direction: column;
 width: 800px;
 margin: 0 auto !important;
-`
+`;
 
 export default function Registration() {
-
   const [value, setValue] = useState({});
   const [checked, setChecked] = useState({});
 
@@ -37,10 +34,8 @@ export default function Registration() {
     console.log(checked)
   }
 
-  const handleChangeCheckBox = (event, type) => {
-    console.log({[type]: event.target.checked});
+  const handleChangeCheckBox = (event, type) =>
     setChecked({...checked, [type]: event.target.checked});
-  };
 
   return (
     <Container>
