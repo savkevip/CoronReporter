@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import {
-  Divider,
   Button,
   Select,
   InputLabel,
@@ -23,6 +22,11 @@ display: flex;
 flex-direction: column;
 width: 800px;
 margin: 0 auto !important;
+`;
+
+const Divider = styled.span`
+  width: 100%;
+  margin: 5px 0;
 `;
 
 export default function Registration() {
@@ -48,7 +52,7 @@ export default function Registration() {
             <MenuItem value='male'>Muski</MenuItem>
             <MenuItem value='female'>Zenski</MenuItem>
           </Select>
-
+          <Divider />
           {value.gender === 'female' ?
             <div>
                 <InputLabel htmlFor="pregnency-native-simple">Da li ste u drugom stanju?</InputLabel>
@@ -56,6 +60,7 @@ export default function Registration() {
                   <MenuItem value='true'>Da</MenuItem>
                   <MenuItem value='false'>Ne</MenuItem>
                 </Select>
+                <Divider />
                 {value.pregnancy === 'true' ?
                     <div>
                       <TextField
@@ -73,7 +78,7 @@ export default function Registration() {
                 :
                 null
           }
-
+          <Divider />
         <TextField
           id="standard-number"
           value={value.age}
@@ -81,25 +86,25 @@ export default function Registration() {
           type="number"
           onChange={(e) => setValue({...value, 'age': e.target.value})}
         />
-
+          <Divider />
         <InputLabel htmlFor="areas-native-simple">Da li ste boravili u rizicnim podrucjima?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'areas': e.target.value})} value={value.areas}>
           <MenuItem value='true'>Da</MenuItem>
           <MenuItem value='false'>Ne</MenuItem>
         </Select>
-
+          <Divider />
         <InputLabel htmlFor="contact-native-simple">Da li ste imali kontakt sa zarazenim osobama?</InputLabel>
         <Select  onChange={(e) => setValue({...value, 'contact': e.target.value})} value={value.contact}>
           <MenuItem value='true'>Da</MenuItem>
           <MenuItem value='false'>Ne</MenuItem>
         </Select>
-
+          <Divider />
         <InputLabel htmlFor="smoke-native-simple">Da li ste pusac?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'smoke': e.target.value})} value={value.smoke}>
           <MenuItem value='true'>Da</MenuItem>
           <MenuItem value='false'>Ne</MenuItem>
         </Select>
-
+          <Divider />
         <label>Da li imate neki od navedenih simptoma?</label>
         <FormControlLabel
           control={
@@ -111,6 +116,7 @@ export default function Registration() {
           }
           label="Temperatura"
         />
+          <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -121,6 +127,7 @@ export default function Registration() {
           }
           label="Kasalj"
         />
+          <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -131,6 +138,7 @@ export default function Registration() {
           }
           label="Bol u grudima"
         />
+          <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -141,6 +149,7 @@ export default function Registration() {
           }
           label="Bol u grlu"
         />
+          <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -151,6 +160,7 @@ export default function Registration() {
           }
           label="Malaksalost"
         />
+          <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -161,6 +171,7 @@ export default function Registration() {
           }
           label="Otezano disanje"
         />
+          <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -171,12 +182,13 @@ export default function Registration() {
           }
           label="Glavobolja"
         />
-
+          <Divider />
         <InputLabel htmlFor="diseise-native-simple">Da li se lecite od neke hronicne bolesti?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'diseise': e.target.value})} value={value.diseise}>
           <MenuItem value='true'>Da</MenuItem>
           <MenuItem value='false'>Ne</MenuItem>
         </Select>
+          <Divider />
         {value.diseise === 'true' ?
             <div>
               <TextField
@@ -189,20 +201,20 @@ export default function Registration() {
           :
           null
         }
-
+          <Divider />
         <InputLabel htmlFor="surgery-native-simple">Da li ste imali neke operacije tokom zivota?</InputLabel>
         <Select onChange={(e) => setValue({...value, 'surgery': e.target.value})} value={value.surgery}>
           <MenuItem value='true'>Da</MenuItem>
           <MenuItem value='false'>Ne</MenuItem>
         </Select>
-
+          <Divider />
         <TextField
           id="standard-basic-email"
           label="Email" type='email'
           onChange={(e) => setValue({...value, 'email': e.target.value})}
           value={value.email}
         />
-
+          <Divider />
         <TextField
           id="standard-basic-password"
           label="Lozinka"
@@ -210,9 +222,8 @@ export default function Registration() {
           onChange={(e) => setValue({...value, 'password': e.target.value})}
           value={value.password}
         />
-
+          <Divider />
       </Form>
-      <Divider />
       <Button type='submit'
               onClick={onSubmit}
               variant="contained"
