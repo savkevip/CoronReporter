@@ -15,14 +15,16 @@ import {
 
 const Container = styled.div`
   padding: 25px;
+  width: 800px;
+  margin: 0 auto !important;
   `;
-// margin-left: 350px;
 
 // mozes formi da stavis width neki -> na velikom ekranu je ogromno :)
 const Form = styled.div`
 display: flex;
 flex-direction: column;
-width: 50%;
+width: 800px;
+margin: 0 auto !important;
 `
 
 export default function Registration() {
