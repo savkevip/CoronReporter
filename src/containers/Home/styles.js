@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Button, Drawer } from "@material-ui/core";
 import styled from "styled-components";
 import { colors } from "../../utils/colors";
 
@@ -6,23 +6,21 @@ export const Container = styled.div`
   padding: 25px;
 `;
 
-export const Button = styled(Link)`
-  padding: 10px 15px;
-  background: ${colors.button};
-  border-radius: 5px;
-  text-decoration: none;
-  color: ${colors.main};
-  transition: .3s;
-
-  &:hover {
-    -webkit-box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.75);
-    box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.75);
-  }
+export const ButtonApply = styled(Button)`
+  background-color: ${colors.marker} !important;
+  margin: 0 20px !important;
 `;
 
 export const LocationWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+`;
+
+export const Sidebar = styled(Drawer)`
+  & > .MuiDrawer-paper {
+  padding: 25px;
+    background-color: ${colors.marker};
+    color: ${colors.main};
+  }
 `;

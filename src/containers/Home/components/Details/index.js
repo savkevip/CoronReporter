@@ -1,26 +1,19 @@
 import React from "react";
-import Donut from 'react-svg-donuts';
+import { Button } from "@material-ui/core";
 import styled from "styled-components";
 
-const Container = styled.div`
-  width: 35%;
-  display: flex;
-  flex-direction: column;
-`;
+const Container = styled.div``;
 
-const Chart = styled(Donut)`
-  margin: 5px;
-`;
+const ProfileButton = styled(Button)`
+  margin: 0 20px !important
+`
 
-export default function Details({ content }) {
-
-    const progress = Math.floor(Math.random() * 100) + 1;
-    const renderProgress = progress => <strong>{progress}%</strong>;
-
+export default function Details({ onToggle }) {
     return (
         <Container>
-            <h1>{content}</h1>
-            <Chart progress={progress} onRender={renderProgress} />
+            <ProfileButton onClick={onToggle}>
+                savkevip@gmail.com
+            </ProfileButton>
         </Container>
     )
 }

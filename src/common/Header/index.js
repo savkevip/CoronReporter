@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, LogoWrapper, Logo} from "./styles";
+import {Container, RightContent, LogoWrapper, Logo} from "./styles";
 
 const logoUrl = require("../../assets/logo.svg");
 
@@ -9,7 +9,9 @@ export default function Header({ children }) {
             <LogoWrapper>
                 <Logo src={logoUrl} />
             </LogoWrapper>
-            {children}
+            <RightContent>
+                {children}
+            </RightContent>
         </Container>
     )
 }

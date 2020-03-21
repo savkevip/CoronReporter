@@ -1,21 +1,39 @@
 import React, { useState } from "react";
 import Map from "./components/Map";
-import Details from "./components/Details";
 import Header from "../../common/Header";
-import { Container, LocationWrapper, Button } from "./styles";
+import Details from "./components/Details";
+import AddIcon from "@material-ui/icons/Add";
+import history from "../../history";
+import { Container, LocationWrapper, ButtonApply, Sidebar } from "./styles";
+
+const isAuth = true;
 
 export default function Home() {
-  const [content, setDetailsContent] = useState("");
+    const [open, setOpen] = useState(false);
+
+    const goToRegister = () => history.push('/registration');
+
   return (
-    <Container>
+    <>
         <Header>
-            <Button to={"/registration"}>PRIJAVI SIMPTOME</Button>
+            <ButtonApply
+                variant="contained"
+                color="secondary"
+                startIcon={<AddIcon />}
+                onClick={goToRegister}
+            >
+                SIMPTOME
+            </ButtonApply>
+            {isAuth && <Details onToggle={() => setOpen(!open)} />}
         </Header>
-      <h1>Map</h1>
-        <LocationWrapper>
-            <Map setDetailsContent={setDetailsContent} />
-            {content && <Details content={content} />}
-        </LocationWrapper>
-    </Container>
+        <Container>
+            <LocationWrapper>
+                <Map />
+            </LocationWrapper>
+            <Sidebar anchor="right" open={open} onClose={() => setOpen(false)}>
+                <h1>Ovde ce da ide lista simptoma koje moze da updejtuje</h1>
+            </Sidebar>
+        </Container>
+    </>
   );
 }

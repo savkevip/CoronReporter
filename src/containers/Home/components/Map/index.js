@@ -1,40 +1,30 @@
 import React, { memo, useState, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
-import { noop } from "lodash/fp";
-import { scaleQuantize } from "d3-scale";
 import { colors } from "../../../../utils/colors";
 import { MapContainer } from "./styles";
 
+const SCALE = 5500;
+const ROTATE_LEFT = -19.0;
+const ROTATE_RIGHT = -43.9;
+const ROTATE_MIDDLE = 0;
+const MARKER_OFFSET = 15;
 const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const colorScale = scaleQuantize()
-  .domain([1, 10])
-  .range([
-    "#ffedea",
-    "#ffedea",
-    "#ffedea",
-    "#ffedea",
-    "#ffedea",
-    "#ffedea",
-    "#ffedea",
-    "#ffedea",
-    "#ffedea"
-  ]);
-
 const markers = [
-  { markerOffset: 15, name: "Beograd", coordinates: [20.463594, 44.804989] },
-  { markerOffset: -30, name: "Novi Sad", coordinates: [19.833549, 45.267136] },
-  { markerOffset: -30, name: "Pristina", coordinates: [21.166191, 42.667542] },
-  { markerOffset: -30, name: "Sarajevo", coordinates: [18.413029, 43.856430] },
-  { markerOffset: -30, name: "Trebinje", coordinates: [18.349470, 42.707127] },
-  { markerOffset: 15, name: "Zagreb", coordinates: [15.966568, 45.815399] },
-  { markerOffset: 15, name: "Split", coordinates: [16.440193, 43.508133] },
-  { markerOffset: 15, name: "Podgorica", coordinates: [19.268646, 42.442574] },
-  { markerOffset: 15, name: "Skoplje", coordinates: [21.43141, 41.99646] }
+  { markerOffset: MARKER_OFFSET, name: "Beograd", coordinates: [20.463594, 44.804989] },
+  { markerOffset: MARKER_OFFSET, name: "Novi Sad", coordinates: [19.833549, 45.267136] },
+  { markerOffset: MARKER_OFFSET, name: "Pristina", coordinates: [21.166191, 42.667542] },
+  { markerOffset: MARKER_OFFSET, name: "Sarajevo", coordinates: [18.413029, 43.856430] },
+  { markerOffset: MARKER_OFFSET, name: "Trebinje", coordinates: [18.349470, 42.707127] },
+  { markerOffset: MARKER_OFFSET, name: "Zagreb", coordinates: [15.966568, 45.815399] },
+  { markerOffset: MARKER_OFFSET, name: "Split", coordinates: [16.440193, 43.508133] },
+  { markerOffset: MARKER_OFFSET, name: "Podgorica", coordinates: [19.268646, 42.442574] },
+  { markerOffset: MARKER_OFFSET, name: "Skoplje", coordinates: [21.43141, 41.99646] },
+  { markerOffset: MARKER_OFFSET, name: "Maribor", coordinates: [15.6459, 46.5547] }
 ];
 
-export default memo(function Map({ setDetailsContent }) {
+export default memo(function Map() {
   const [data, setData] = useState([
     {
       NAME: "Serbia",
@@ -59,7 +49,11 @@ export default memo(function Map({ setDetailsContent }) {
     {
       NAME: "Macedonia",
       CORONA_RATE: "4"
-    }
+    },
+      {
+          NAME: "Slovenia",
+          CORONA_RATE: "6"
+      }
   ]);
 
   // useEffect(() => {
@@ -73,8 +67,8 @@ export default memo(function Map({ setDetailsContent }) {
       <ComposableMap
         projection="geoAzimuthalEqualArea"
         projectionConfig={{
-          rotate: [-20.0, -43.0, 0],
-          scale: 2500
+          rotate: [ROTATE_LEFT, ROTATE_RIGHT, ROTATE_MIDDLE],
+          scale: SCALE
         }}
       >
         <Geographies geography={geoUrl}>
@@ -82,7 +76,7 @@ export default memo(function Map({ setDetailsContent }) {
             geographies.map(geo => {
               const { NAME } = geo.properties;
               const cur = data.find(s => s.NAME === NAME);
-              const color = cur ? colorScale(cur.CORONA_RATE) : colors.map;
+              const color = cur ? colors.supportedCountries : colors.map;
 
               return (
                 <Geography
@@ -90,15 +84,6 @@ export default memo(function Map({ setDetailsContent }) {
                   geography={geo}
                   stroke={color}
                   fill={color}
-                  onClick={() => {
-                    const content = NAME === "Kosovo" ? "Serbia" : NAME;
-                    cur ? setDetailsContent(content) : noop();
-                  }}
-                  style={{
-                    hover: {
-                      cursor: cur ? "pointer" : "not-allowed"
-                    }
-                  }}
                 />
               );
             })
@@ -108,7 +93,7 @@ export default memo(function Map({ setDetailsContent }) {
               <Marker key={name} coordinates={coordinates}>
                   <g
                       fill="none"
-                      stroke="#FF5533"
+                      stroke={colors.marker}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
