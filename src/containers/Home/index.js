@@ -75,7 +75,7 @@ export default function Home() {
                 <Map />
             </LocationWrapper>
             <Sidebar anchor="right" open={open} onClose={() => setOpen(false)}>
-                <h1>Popunite formu ili konsultujte doktora</h1>
+                <h1>Azurirajte svoje zdravstveno stanje ili kosultujte doktora.</h1>
                 <Form>
                     <label> Da li imate neki od navedenih simptoma? </label>
                     <FormControlLabel
@@ -174,8 +174,7 @@ export default function Home() {
                     color="default"
                     size="small"
                 >
-                    {" "}
-                    Dodaj{" "}
+                    Dodaj
                 </Button>
                 <Divider />
                 <Button
@@ -185,8 +184,7 @@ export default function Home() {
                     color="default"
                     size="small"
                 >
-                    {" "}
-                    Konsultujte doktora{" "}
+                    Konsultujte doktora
                 </Button>
             </Sidebar>
         </Container>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import Header from "../../common/Header";
+import history from "../../history";
 import styled from "styled-components";
 import {
   Button,
@@ -10,57 +12,55 @@ import {
   FormControlLabel,
   MenuItem
 } from "@material-ui/core";
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 const countries = [
-  { code: 'BA', label: 'Bosnia and Herzegovina', phone: '387' },
-  { code: 'HR', label: 'Croatia', phone: '385' },
-  { code: 'ME', label: 'Montenegro', phone: '382' },
-  { code: 'MK', label: 'North Macedonia', phone: '389' },
-  { code: 'RS', label: 'Serbia', phone: '381' },
-  { code: 'SI', label: 'Slovenia', phone: '386' }
+  { code: "BA", label: "Bosnia and Herzegovina", phone: "387" },
+  { code: "HR", label: "Croatia", phone: "385" },
+  { code: "ME", label: "Montenegro", phone: "382" },
+  { code: "MK", label: "North Macedonia", phone: "389" },
+  { code: "RS", label: "Serbia", phone: "381" },
+  { code: "SI", label: "Slovenia", phone: "386" }
 ];
 
 function countryToFlag(isoCode) {
-  return typeof String.fromCodePoint !== 'undefined'
-    ? isoCode.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))
+  return typeof String.fromCodePoint !== "undefined"
+    ? isoCode
+        .toUpperCase()
+        .replace(/./g, char =>
+          String.fromCodePoint(char.charCodeAt(0) + 127397)
+        )
     : isoCode;
-};
+}
 
 const useStyles = makeStyles({
   option: {
     fontSize: 15,
-    '& > span': {
+    "& > span": {
       marginRight: 10,
-      fontSize: 18,
-    },
-  },
+      fontSize: 18
+    }
+  }
 });
 
 const Container = styled.div`
-  padding: 25px;
-  width: 800px;
-  margin: 0 auto !important;
 `;
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  width: 800px;
-  margin: 0 auto !important;
+  padding: 25px;
 `;
 
 const Divider = styled.span`
   width: 100%;
-  margin: 5px 0;
+  margin: 10px 0;
 `;
 
 export default function Registration() {
-
   const [value, setValue] = useState({});
   const [checked, setChecked] = useState({});
-  const [country, setCounrty] = useState({});
+  const [country, setCountry] = useState();
 
   const classes = useStyles();
 
@@ -71,81 +71,102 @@ export default function Registration() {
   };
 
   const handleChangeCheckBox = (event, type) => {
-    setChecked({ ...checked, [type]: event.target.checked })};
+    setChecked({ ...checked, [type]: event.target.checked });
+  };
+
+  const goBack = () => history.push("/");
 
   return (
     <Container>
-      <Link to={"/"}>go to Home.</Link>
-      <Divider light />
+      <Header>
+        <Button onClick={goBack}>Vrati se</Button>
+      </Header>
+
       <Form>
-        <h1>Registration</h1>
-        <InputLabel htmlFor="gender-native-simple">Pol</InputLabel>
+        <h1>Formular o simptomima</h1>
+
+        <InputLabel htmlFor="gender">Pol</InputLabel>
         <Select
+          id="gender"
           onChange={e => setValue({ ...value, gender: e.target.value })}
           value={value.gender}
         >
-          <MenuItem value="male">Muski</MenuItem>
-          <MenuItem value="female">Zenski</MenuItem>
+          <MenuItem value="male">Muški</MenuItem>
+          <MenuItem value="female">Ženski</MenuItem>
         </Select>
-        <Divider />
-        {value.gender === "female" ? (
-          <div>
-            <InputLabel htmlFor="pregnency-native-simple">
+
+        {value.gender === "female" && (
+          <>
+            <Divider />
+            <InputLabel htmlFor="pregnancy">
               Da li ste u drugom stanju?
             </InputLabel>
             <Select
+              id="pregnancy"
               onChange={e => setValue({ ...value, pregnancy: e.target.value })}
               value={value.pregnancy}
             >
-              <MenuItem value="true">Da</MenuItem>
-              <MenuItem value="false">Ne</MenuItem>
+              <MenuItem value={true}>Da</MenuItem>
+              <MenuItem value={false}>Ne</MenuItem>
             </Select>
-            <Divider />
-            {value.pregnancy === "true" ? (
-              <div>
+
+            {value.pregnancy && (
+              <>
+                <Divider />
                 <TextField
                   id="standard-number"
-                  label="Mesec trudnoce"
+                  label="Mesec trudnoće"
                   type="number"
                   value={value.month}
                   onChange={e => setValue({ ...value, month: e.target.value })}
                 />
-              </div>
-            ) : null}
-          </div>
-        ) : null}
+              </>
+            )}
+          </>
+        )}
+
         <Divider />
+
         <TextField
-          id="standard-number"
+          id="ages"
           value={value.age}
-          label="Godine"
+          label="Koliko imate godina?"
           type="number"
           onChange={e => setValue({ ...value, age: e.target.value })}
         />
+
         <Divider />
-        <InputLabel htmlFor="areas-native-simple">
-          Da li ste boravili u rizicnim podrucjima?
+
+        <InputLabel htmlFor="areas">
+          Da li ste boravili u rizičnim područjima?
         </InputLabel>
         <Select
+          id="areas"
           onChange={e => setValue({ ...value, areas: e.target.value })}
           value={value.areas}
         >
-          <MenuItem value="true">Da</MenuItem>
-          <MenuItem value="false">Ne</MenuItem>
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
         </Select>
+
         <Divider />
-        <InputLabel htmlFor="contact-native-simple">
-          Da li ste imali kontakt sa zarazenim osobama?
+
+        <InputLabel htmlFor="contact">
+          Da li ste imali kontakt sa zaraženim osobama?
         </InputLabel>
         <Select
+          id="contact"
           onChange={e => setValue({ ...value, contact: e.target.value })}
           value={value.contact}
         >
-          <MenuItem value="true">Da</MenuItem>
-          <MenuItem value="false">Ne</MenuItem>
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
         </Select>
+
         <Divider />
-        <label> Da li imate neki od navedenih simptoma? </label>
+
+        <InputLabel> Da li imate neki od navedenih simptoma? </InputLabel>
+        <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -156,18 +177,22 @@ export default function Registration() {
           }
           label="Temperatura"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
-              onChange={e => handleChangeCheckBox(e, "cought")}
+              onChange={e => handleChangeCheckBox(e, "caught")}
               name="checked2"
               color="primary"
             />
           }
-          label="Kasalj"
+          label="Kašalj"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -178,7 +203,9 @@ export default function Registration() {
           }
           label="Bol u grudima"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -189,7 +216,9 @@ export default function Registration() {
           }
           label="Bol u grlu"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -200,7 +229,9 @@ export default function Registration() {
           }
           label="Malaksalost"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -209,9 +240,11 @@ export default function Registration() {
               color="primary"
             />
           }
-          label="Otezano disanje"
+          label="Otežano disanje"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -222,20 +255,23 @@ export default function Registration() {
           }
           label="Glavobolja"
         />
+
         <Divider />
 
-        <InputLabel htmlFor="smoke-native-simple">Da li ste pusac?</InputLabel>
+        <InputLabel htmlFor="smoker">Da li ste pušač?</InputLabel>
         <Select
+          id="smoker"
           onChange={e => setValue({ ...value, smoke: e.target.value })}
           value={value.smoke}
         >
-          <MenuItem value="true">Da</MenuItem>
-          <MenuItem value="false">Ne</MenuItem>
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
         </Select>
 
         <Divider />
 
-        <label>Da li se lecite od neke hronicne bolesti?</label>
+        <InputLabel>Da li se lečite od neke hronične bolesti?</InputLabel>
+        <Divider />
         <FormControlLabel
           control={
             <Checkbox
@@ -246,7 +282,9 @@ export default function Registration() {
           }
           label="Diabetes tip 1"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -257,7 +295,9 @@ export default function Registration() {
           }
           label="Diabetes tip 2"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -268,7 +308,9 @@ export default function Registration() {
           }
           label="Astma"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -279,7 +321,9 @@ export default function Registration() {
           }
           label="COPD"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -288,9 +332,11 @@ export default function Registration() {
               color="primary"
             />
           }
-          label="Visoki krvni pritisak"
+          label="Visok krvni pritisak"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
@@ -301,98 +347,109 @@ export default function Registration() {
           }
           label="Tumorske bolesti"
         />
+
         <Divider />
+
         <FormControlLabel
           control={
             <Checkbox
-              onChange={e => handleChangeCheckBox(e, "else")}
+              onChange={e => handleChangeCheckBox(e, "other")}
               name="checked7"
               color="primary"
             />
           }
           label="Druge bolesti"
         />
-        <Divider />
-        {checked.else === true ? (
+
+        {checked.other && (
           <div>
+            <Divider />
             <TextField
-              id="standard-basic-op"
+              id="other"
               label="Navedite bolesti"
-              value={value.diseiseKind}
+              value={value.disease}
               onChange={e =>
-                setValue({ ...value, "diseise kind": e.target.value })
+                setValue({ ...value, ["disease"]: e.target.value })
               }
             />
           </div>
-        ) : null}
+        )}
+
         <Divider />
-        <InputLabel htmlFor="surgery-native-simple">
-          Da li ste imali neke operacije tokom zivota?
+
+        <InputLabel htmlFor="surgery">
+          Da li ste imali neke operacije tokom života?
         </InputLabel>
         <Select
+          id="surgery"
           onChange={e => setValue({ ...value, surgery: e.target.value })}
           value={value.surgery}
         >
-          <MenuItem value="true">Da</MenuItem>
-          <MenuItem value="false">Ne</MenuItem>
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
         </Select>
+
         <Divider />
+
         <Autocomplete
-          onChange={(event, value) => setCounrty({country: value})}
+          onChange={(event, value) => setCountry(value)}
           id="country-select"
-          style={{ width: 300 }}
           options={countries}
           classes={{
-            option: classes.option,
+            option: classes.option
           }}
           autoHighlight
           getOptionLabel={option => option.label}
           renderOption={option => (
-            <React.Fragment>
+            <>
               <span>{countryToFlag(option.code)}</span>
               {option.label} {option.flag} ({option.code}) +{option.phone}
-            </React.Fragment>
-        )}
+            </>
+          )}
           renderInput={params => (
-        <TextField
-          {...params}
-          label="Izaberite drzavu"
-          variant="outlined"
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: 'new-password',
+            <TextField
+              {...params}
+              label="Iz koje ste države?"
+              inputProps={{
+                ...params.inputProps,
+                autoComplete: "new-password"
               }}
             />
           )}
         />
+
         <Divider />
+
         <TextField
-          id="standard-basic-email"
-          label="Email"
+          id="email"
+          label="Vaša mail adresa?"
           type="email"
           onChange={e => setValue({ ...value, email: e.target.value })}
           value={value.email}
         />
+
         <Divider />
+
         <TextField
-          id="standard-basic-password"
-          label="Lozinka"
+          id="password"
+          label="Vaša lozinka?"
           type="password"
           onChange={e => setValue({ ...value, password: e.target.value })}
           value={value.password}
         />
+
         <Divider />
+
+          <Button
+              type="submit"
+              onClick={onSubmit}
+              variant="contained"
+              color="secondary"
+              size="large"
+          >
+              Potvrdi
+          </Button>
       </Form>
-      <Button
-        type="submit"
-        onClick={onSubmit}
-        variant="contained"
-        color="secondary"
-        size="large"
-      >
-        {" "}
-        Potvrdi{" "}
-      </Button>
     </Container>
   );
 }
