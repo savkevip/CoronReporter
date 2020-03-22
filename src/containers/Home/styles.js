@@ -20,7 +20,7 @@ export const LocationWrapper = styled.div`
 export const Sidebar = styled(Drawer)`
   & > .MuiDrawer-paper {
   padding: 25px;
-    background-color: ${colors.marker};
+    background-color: #CD5C5C;
     color: ${colors.main};
   }
 `;

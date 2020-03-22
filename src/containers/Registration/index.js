@@ -10,6 +10,33 @@ import {
   FormControlLabel,
   MenuItem
 } from "@material-ui/core";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { makeStyles } from '@material-ui/core/styles';
+
+const countries = [
+  { code: 'BA', label: 'Bosnia and Herzegovina', phone: '387' },
+  { code: 'HR', label: 'Croatia', phone: '385' },
+  { code: 'ME', label: 'Montenegro', phone: '382' },
+  { code: 'MK', label: 'North Macedonia', phone: '389' },
+  { code: 'RS', label: 'Serbia', phone: '381' },
+  { code: 'SI', label: 'Slovenia', phone: '386' }
+];
+
+function countryToFlag(isoCode) {
+  return typeof String.fromCodePoint !== 'undefined'
+    ? isoCode.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))
+    : isoCode;
+};
+
+const useStyles = makeStyles({
+  option: {
+    fontSize: 15,
+    '& > span': {
+      marginRight: 10,
+      fontSize: 18,
+    },
+  },
+});
 
 const Container = styled.div`
   padding: 25px;
@@ -30,16 +57,21 @@ const Divider = styled.span`
 `;
 
 export default function Registration() {
+
   const [value, setValue] = useState({});
   const [checked, setChecked] = useState({});
+  const [country, setCounrty] = useState({});
+
+  const classes = useStyles();
 
   const onSubmit = () => {
     console.log(value);
     console.log(checked);
+    console.log(country);
   };
 
-  const handleChangeCheckBox = (event, type) =>
-    setChecked({ ...checked, [type]: event.target.checked });
+  const handleChangeCheckBox = (event, type) => {
+    setChecked({ ...checked, [type]: event.target.checked })};
 
   return (
     <Container>
@@ -113,16 +145,7 @@ export default function Registration() {
           <MenuItem value="false">Ne</MenuItem>
         </Select>
         <Divider />
-        <InputLabel htmlFor="smoke-native-simple">Da li ste pusac?</InputLabel>
-        <Select
-          onChange={e => setValue({ ...value, smoke: e.target.value })}
-          value={value.smoke}
-        >
-          <MenuItem value="true">Da</MenuItem>
-          <MenuItem value="false">Ne</MenuItem>
-        </Select>
-        <Divider />
-        <label>Da li imate neki od navedenih simptoma?</label>
+        <label> Da li imate neki od navedenih simptoma? </label>
         <FormControlLabel
           control={
             <Checkbox
@@ -200,18 +223,97 @@ export default function Registration() {
           label="Glavobolja"
         />
         <Divider />
-        <InputLabel htmlFor="diseise-native-simple">
-          Da li se lecite od neke hronicne bolesti?
-        </InputLabel>
+
+        <InputLabel htmlFor="smoke-native-simple">Da li ste pusac?</InputLabel>
         <Select
-          onChange={e => setValue({ ...value, diseise: e.target.value })}
-          value={value.diseise}
+          onChange={e => setValue({ ...value, smoke: e.target.value })}
+          value={value.smoke}
         >
           <MenuItem value="true">Da</MenuItem>
           <MenuItem value="false">Ne</MenuItem>
         </Select>
+
         <Divider />
-        {value.diseise === "true" ? (
+
+        <label>Da li se lecite od neke hronicne bolesti?</label>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChangeCheckBox(e, "diabetes type 1")}
+              name="checked1"
+              color="primary"
+            />
+          }
+          label="Diabetes tip 1"
+        />
+        <Divider />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChangeCheckBox(e, "diabetes type 2")}
+              name="checked2"
+              color="primary"
+            />
+          }
+          label="Diabetes tip 2"
+        />
+        <Divider />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChangeCheckBox(e, "asthma")}
+              name="checked3"
+              color="primary"
+            />
+          }
+          label="Astma"
+        />
+        <Divider />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChangeCheckBox(e, "copd")}
+              name="checked4"
+              color="primary"
+            />
+          }
+          label="COPD"
+        />
+        <Divider />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChangeCheckBox(e, "high blood preasure")}
+              name="checked5"
+              color="primary"
+            />
+          }
+          label="Visoki krvni pritisak"
+        />
+        <Divider />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChangeCheckBox(e, "tumor")}
+              name="checked6"
+              color="primary"
+            />
+          }
+          label="Tumorske bolesti"
+        />
+        <Divider />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={e => handleChangeCheckBox(e, "else")}
+              name="checked7"
+              color="primary"
+            />
+          }
+          label="Druge bolesti"
+        />
+        <Divider />
+        {checked.else === true ? (
           <div>
             <TextField
               id="standard-basic-op"
@@ -234,6 +336,35 @@ export default function Registration() {
           <MenuItem value="true">Da</MenuItem>
           <MenuItem value="false">Ne</MenuItem>
         </Select>
+        <Divider />
+        <Autocomplete
+          onChange={(event, value) => setCounrty({country: value})}
+          id="country-select"
+          style={{ width: 300 }}
+          options={countries}
+          classes={{
+            option: classes.option,
+          }}
+          autoHighlight
+          getOptionLabel={option => option.label}
+          renderOption={option => (
+            <React.Fragment>
+              <span>{countryToFlag(option.code)}</span>
+              {option.label} {option.flag} ({option.code}) +{option.phone}
+            </React.Fragment>
+        )}
+          renderInput={params => (
+        <TextField
+          {...params}
+          label="Izaberite drzavu"
+          variant="outlined"
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: 'new-password',
+              }}
+            />
+          )}
+        />
         <Divider />
         <TextField
           id="standard-basic-email"
