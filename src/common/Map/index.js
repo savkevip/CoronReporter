@@ -7,7 +7,7 @@ import {
 } from "react-simple-maps";
 import { scaleQuantile } from "d3-scale";
 import { colors } from "../../utils/colors";
-import { MapContainer } from "./styles";
+import { MapContainer, Title } from "./styles";
 
 const SCALE = 7700;
 const ROTATE_LEFT = -20.5;
@@ -18,27 +18,27 @@ const geoUrl =
 
 const markers = [
   {
-    numberWithSymptoms: 245,
+    numberWithSymptoms: 121,
     name: "Beograd",
     coordinates: [20.463594, 44.804989]
   },
   {
-    numberWithSymptoms: 213,
+    numberWithSymptoms: 21,
     name: "Pancevo",
     coordinates: [20.65835, 44.870961]
   },
   {
-    numberWithSymptoms: 14,
+    numberWithSymptoms: 36,
     name: "Novi Sad",
     coordinates: [19.833549, 45.267136]
   },
   {
-    numberWithSymptoms: 25123,
+    numberWithSymptoms: 500,
     name: "Pristina",
     coordinates: [21.166191, 42.667542]
   },
   {
-    numberWithSymptoms: 500,
+    numberWithSymptoms: 15,
     name: "Kosovska Mitrovica",
     coordinates: [20.866, 42.8914]
   }
@@ -76,6 +76,7 @@ export default memo(function Map() {
 
   return (
     <MapContainer>
+      <Title>Trenutna mapa</Title>
       <ComposableMap
         projection="geoAzimuthalEqualArea"
         projectionConfig={{
@@ -102,7 +103,7 @@ export default memo(function Map() {
           }
         </Geographies>
         {markers.map(({ name, coordinates, numberWithSymptoms }) => {
-          const average = numberWithSymptoms / 100;
+          const average = Math.ceil(numberWithSymptoms / 50);
           const R = average > 50 ? 50 : average;
           return (
             <Marker key={name} coordinates={coordinates}>

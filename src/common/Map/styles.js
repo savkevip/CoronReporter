@@ -5,3 +5,9 @@ export const MapContainer = styled.div`
   margin: 20px 0;
   pointer-events: none;
 `;
+
+export const Title = styled.div`
+  width: 100%;
+  margin-bottom: 5px;
+  text-align: center;
+`;
