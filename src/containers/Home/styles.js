@@ -9,5 +9,5 @@ export const Container = styled.div`
 `;
 
 export const ButtonApply = styled(Button)`
-  background-color: ${colors.marker} !important;
+  background-color: ${colors.confirmedCase} !important;
 `;

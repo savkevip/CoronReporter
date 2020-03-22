@@ -52,7 +52,7 @@ export default function Login() {
         <Divider />
 
         <Button
-            style={{ backgroundColor: colors.marker, color: colors.main }}
+            style={{ backgroundColor: colors.confirmedCase, color: colors.main }}
             variant="contained"
             startIcon={<PersonIcon />}
             onClick={goToHomePage}
