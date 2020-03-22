@@ -6,10 +6,9 @@ import Sidebar from "../../common/Sidebar";
 import CustomButton from "../../common/CustomButton";
 import Map from "../../common/Map";
 import AddIcon from "@material-ui/icons/Add";
-import {
-  Container,
-  Wrapper,
-} from "./styles";
+import LogOutIcon from "@material-ui/icons/Person";
+import history from "../../history";
+import { Container, Wrapper } from "./styles";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
@@ -50,6 +49,9 @@ export default function Home() {
   const handleChangeCheckBox = (event, type) =>
     setChecked({ ...checked, [type]: event.target.checked });
 
+  const logOut = () =>
+      history.push("/login");
+
   const onSubmit = () => {
     console.log(value);
     console.log(checked);
@@ -65,6 +67,13 @@ export default function Home() {
           onClick={() => setOpen(true)}
           label={"SIMPTOME"}
         />
+        <CustomButton
+            variant="contained"
+            color="secondary"
+            startIcon={<LogOutIcon />}
+            onClick={logOut}
+            label={"Odjavi se"}
+        />
       </Header>
       <Container>
         <Wrapper>
@@ -76,7 +85,7 @@ export default function Home() {
       </Container>
       {/*ovo sve treba da ideu posebnu komponentu => SidebarUpdate :)*/}
       <Sidebar anchor="right" open={open} onClose={() => setOpen(false)}>
-        <h1>Azurirajte svoje zdravstveno stanje</h1>
+        <h2>Azurirajte svoje trenutno stanje</h2>
         <Form>
           <label> Da li imate neki od navedenih simptoma? </label>
           <FormControlLabel
@@ -185,7 +194,7 @@ export default function Home() {
           color="default"
           size="small"
         >
-          Konsultujte doktora
+          Obriši profil
         </Button>
       </Sidebar>
     </>

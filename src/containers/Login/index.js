@@ -16,20 +16,22 @@ const Container = styled.div`
   text-align: center;
   max-width: 400px;
   margin: auto;
-  padding: 25px;
 `;
 
 export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const goToHomePage = () => history.push("/")
+  const goToHomePage = () => history.push("/");
 
   return (
     <>
       <Header />
       <Container>
-          <h1>Budi odgovoran i pomozi sebi i drugima vodi svoju sopstvenu evidenciju o svom trenutnom stanju. Hvala! &hearts;</h1>
+        <h1>
+          Budi odgovoran! Pomozi sebi i drugima. Vodi evidenciju
+          o svom trenutnom zdravstvenom stanju. Hvala! &hearts;
+        </h1>
         <h2>#OstaniKodKuće</h2>
         <TextField
           id="email"
@@ -52,17 +54,17 @@ export default function Login() {
         <Divider />
 
         <Button
-            style={{ backgroundColor: colors.confirmedCase, color: colors.main }}
-            variant="contained"
-            startIcon={<PersonIcon />}
-            onClick={goToHomePage}
+          style={{ backgroundColor: colors.confirmedCase, color: colors.main }}
+          variant="contained"
+          startIcon={<PersonIcon />}
+          onClick={goToHomePage}
         >
-            Prijavi se
+          Prijavi se
         </Button>
 
-          <Divider />
+        <Divider />
 
-          <Link to="/registration">Još uvek nemate nalog?</Link>
+        <Link to="/registration">Još uvek nemate nalog?</Link>
       </Container>
     </>
   );

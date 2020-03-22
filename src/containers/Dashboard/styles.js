@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  padding: 25px;
-`;
+export const Container = styled.div``;
 
 export const OverallWrapper = styled.div`
   display: flex;

@@ -44,13 +44,11 @@ const useStyles = makeStyles({
   }
 });
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 25px;
 `;
 
 export default function Registration() {
@@ -436,15 +434,15 @@ export default function Registration() {
 
         <Divider />
 
-          <Button
-              type="submit"
-              onClick={onSubmit}
-              variant="contained"
-              color="secondary"
-              size="large"
-          >
-              Potvrdi
-          </Button>
+        <Button
+          type="submit"
+          onClick={onSubmit}
+          variant="contained"
+          color="secondary"
+          size="large"
+        >
+          Potvrdi
+        </Button>
       </Form>
     </Container>
   );

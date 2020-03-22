@@ -9,16 +9,16 @@ const Container = styled.div`
 `;
 
 export default function Details({ user }) {
-    return (
-        <Container>
-            <span>{user.email}</span>
-            <span>{user.gender}</span>
-            <CustomButton
-                variant="contained"
-                color="secondary"
-                startIcon={<HelpIcon />}
-                label={"Kosultuj se sa lekarom"}
-            />
-        </Container>
-    )
+  return (
+    <Container>
+      <span>{user.email}</span>
+      <span>{user.gender}</span>
+      <CustomButton
+        variant="contained"
+        color="secondary"
+        startIcon={<HelpIcon />}
+        label={"Kosultuj se sa lekarom"}
+      />
+    </Container>
+  );
 }

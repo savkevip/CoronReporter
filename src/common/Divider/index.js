@@ -7,5 +7,5 @@ const Container = styled.div`
 `;
 
 export default function Divider() {
-    return <Container />
+  return <Container />;
 }
