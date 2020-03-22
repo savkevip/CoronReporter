@@ -1,13 +1,13 @@
-import { Button } from "@material-ui/core";
 import styled from "styled-components";
-import { colors } from "../../utils/colors";
 
 export const Container = styled.div`
   padding: 25px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;
 
-export const ButtonApply = styled(Button)`
-  background-color: ${colors.confirmedCase} !important;
+export const Wrapper = styled.div`
+  width: 48%;
 `;

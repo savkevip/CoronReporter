@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import Details from "./components/Details";
 import Header from "../../common/Header";
 import Divider from "../../common/Divider";
+import Sidebar from "../../common/Sidebar";
+import CustomButton from "../../common/CustomButton";
 import Map from "../../common/Map";
 import AddIcon from "@material-ui/icons/Add";
 import {
   Container,
-  ButtonApply,
+  Wrapper,
 } from "./styles";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
@@ -17,7 +20,11 @@ import {
   FormControlLabel,
   MenuItem
 } from "@material-ui/core";
-import Sidebar from "../../common/Sidebar";
+
+const user = {
+  email: "zarazeni@gmail.com",
+  gender: "male"
+};
 
 const WhiteCheckbox = withStyles({
   root: {
@@ -51,17 +58,21 @@ export default function Home() {
   return (
     <>
       <Header>
-        <ButtonApply
+        <CustomButton
           variant="contained"
           color="secondary"
           startIcon={<AddIcon />}
           onClick={() => setOpen(true)}
-        >
-          SIMPTOME
-        </ButtonApply>
+          label={"SIMPTOME"}
+        />
       </Header>
       <Container>
-        <Map />
+        <Wrapper>
+          <Map />
+        </Wrapper>
+        <Wrapper>
+          <Details user={user} />
+        </Wrapper>
       </Container>
       {/*ovo sve treba da ideu posebnu komponentu => SidebarUpdate :)*/}
       <Sidebar anchor="right" open={open} onClose={() => setOpen(false)}>
