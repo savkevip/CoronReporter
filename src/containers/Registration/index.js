@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Header from "../../common/Header";
+import Divider from "../../common/Divider";
 import history from "../../history";
 import styled from "styled-components";
 import {
@@ -52,11 +53,6 @@ const Form = styled.div`
   padding: 25px;
 `;
 
-const Divider = styled.span`
-  width: 100%;
-  margin: 10px 0;
-`;
-
 export default function Registration() {
   const [value, setValue] = useState({});
   const [checked, setChecked] = useState({});
@@ -74,7 +70,7 @@ export default function Registration() {
     setChecked({ ...checked, [type]: event.target.checked });
   };
 
-  const goBack = () => history.push("/");
+  const goBack = () => history.push("/login");
 
   return (
     <Container>

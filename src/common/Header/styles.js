@@ -13,7 +13,7 @@ export const Container = styled.div`
 export const RightContent = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 10px;
+  margin: 0 20px;
 `;
 
 export const LogoWrapper = styled.div`
