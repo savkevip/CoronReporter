@@ -2,7 +2,7 @@ import axios from "axios";
 import history from "../history";
 import { getCookie, removeCookie } from "./cookie";
 
-const API_URL = "";
+const API_URL = "https://coronreporter-be.herokuapp.com/api";
 
 const getHeaderConfig = () => ({
   Authorization: getCookie("token")
