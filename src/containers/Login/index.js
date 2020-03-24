@@ -7,6 +7,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import history from "../../history";
 import styled from "styled-components";
 import { colors } from "../../utils/colors";
+import { errorNotification, successNotification } from "../../utils/toastrs";
 
 const Container = styled.div`
   height: calc(100vh - 70px);
@@ -22,15 +23,25 @@ export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const goToHomePage = () => history.push("/");
+  const handleLogin = () => {
+    if (!email) {
+      errorNotification("Email je obavezno polje.");
+      return;
+    }
+    if (!password) {
+      errorNotification("Lozinka je obavezno polje.");
+      return;
+    }
+    history.push("/");
+  };
 
   return (
     <>
       <Header />
       <Container>
         <h1>
-          Budi odgovoran! Pomozi sebi i drugima. Vodi evidenciju
-          o svom trenutnom zdravstvenom stanju. Hvala! &hearts;
+          Budi odgovoran! Pomozi sebi i drugima. Vodi evidenciju o svom
+          trenutnom zdravstvenom stanju. Hvala! &hearts;
         </h1>
         <h2>#OstaniKodKuće</h2>
         <TextField
@@ -57,10 +68,14 @@ export default function Login() {
           style={{ backgroundColor: colors.confirmedCase, color: colors.main }}
           variant="contained"
           startIcon={<PersonIcon />}
-          onClick={goToHomePage}
+          onClick={handleLogin}
         >
           Prijavi se
         </Button>
+
+        <Divider />
+
+        <Link to="/forgot">Zaboravili ste lozinku?</Link>
 
         <Divider />
 

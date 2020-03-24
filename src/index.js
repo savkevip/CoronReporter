@@ -10,10 +10,13 @@ import { Router, Route, Switch } from "react-router-dom";
 import history from "./history";
 import { GlobalStyle } from "./styles";
 import * as serviceWorker from "./serviceWorker";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
   <Provider store={store}>
     <GlobalStyle />
+    <ToastContainer />
     <Router history={history}>
       <Switch>
         <Route exact path="/login" component={Login} />
