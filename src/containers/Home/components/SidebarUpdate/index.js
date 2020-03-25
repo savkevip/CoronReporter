@@ -7,6 +7,8 @@ import {
   Select,
   MenuItem
 } from "@material-ui/core";
+import { errorNotification } from "../../../../utils/toastrs";
+import { publicAPI } from "../../../../utils/api"
 
 const Form = styled.div`
   display: flex;
@@ -16,9 +18,18 @@ const Form = styled.div`
 
 export default function Side({open, setOpen}) {
   const [value, setValue] = useState({});
+  const [symptom, setSymptom] = useState({});
 
-  const onSubmit = () => {
-    console.log(value);
+  const onSubmit = async () => {
+    const data = {details: {...value}, symptoms: {...symptom}}
+    console.log(data)
+
+    try {
+      const response = await publicAPI.put('/user/update', {data})
+      console.log('resp', response)
+    } catch(error){
+      errorNotification('Error')
+    }
   };
 
   return (
@@ -27,8 +38,8 @@ export default function Side({open, setOpen}) {
     <Form>
       <label> Da li imate temperaturu?</label>
       <Select
-        onChange={e => setValue({ ...value, temperature: e.target.value })}
-        value={value.temperature}
+        onChange={e => setSymptom({ ...symptom, temperature: e.target.value })}
+        value={symptom.temperature}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -36,8 +47,8 @@ export default function Side({open, setOpen}) {
       <Divider />
       <label>Da li imate kašalj?</label>
       <Select
-        onChange={e => setValue({ ...value, cough: e.target.value })}
-        value={value.cough}
+        onChange={e => setSymptom({ ...symptom, cough: e.target.value })}
+        value={symptom.cough}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -45,8 +56,8 @@ export default function Side({open, setOpen}) {
       <Divider />
       <label>Da li imate bol u grudima?</label>
       <Select
-        onChange={e => setValue({ ...value, chestPain: e.target.value })}
-        value={value.chestPain}
+        onChange={e => setSymptom({ ...symptom, chestPain: e.target.value })}
+        value={symptom.chestPain}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -54,8 +65,8 @@ export default function Side({open, setOpen}) {
       <Divider />
       <label>Da li imate bol u grlu?</label>
       <Select
-        onChange={e => setValue({ ...value, soreThroat: e.target.value })}
-        value={value.soreThroat}
+        onChange={e => setSymptom({ ...symptom, soreThroat: e.target.value })}
+        value={symptom.soreThroat}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -63,8 +74,8 @@ export default function Side({open, setOpen}) {
       <Divider />
       <label>Da li osećate slabost/malaksalost?</label>
       <Select
-        onChange={e => setValue({ ...value, fever: e.target.value })}
-        value={value.fever}
+        onChange={e => setSymptom({ ...symptom, fever: e.target.value })}
+        value={symptom.fever}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -72,8 +83,8 @@ export default function Side({open, setOpen}) {
       <Divider />
       <label>Da li otežano dišete?</label>
       <Select
-        onChange={e => setValue({ ...value, heavyBreathing: e.target.value })}
-        value={value.heavyBreathing}
+        onChange={e => setSymptom({ ...symptom, heavyBreathing: e.target.value })}
+        value={symptom.heavyBreathing}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -81,8 +92,8 @@ export default function Side({open, setOpen}) {
       <Divider />
       <label>Da li imate glavobolju?</label>
       <Select
-        onChange={e => setValue({ ...value, headache: e.target.value })}
-        value={value.headache}
+        onChange={e => setSymptom({ ...symptom, headache: e.target.value })}
+        value={symptom.headache}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>

@@ -26,7 +26,7 @@ export default function Login() {
   const [password, setPassword] = useState();
 
 
-   const handleLogin = async event => {
+   const handleLogin = async () => {
     if (!email) {
       errorNotification("Email je obavezno polje.");
       return;

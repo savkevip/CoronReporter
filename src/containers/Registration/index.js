@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import Header from "../../common/Header";
 import Divider from "../../common/Divider";
 import history from "../../history";
 import styled from "styled-components";
+import { errorNotification, successNotification } from "../../utils/toastrs";
+import { makeStyles } from "@material-ui/core/styles";
+import { publicAPI } from "../../utils/api"
 import {
   Button,
   Select,
@@ -12,7 +14,6 @@ import {
   FormControlLabel,
   MenuItem
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   option: {
@@ -33,16 +34,32 @@ const Form = styled.div`
 
 export default function Registration() {
   const [value, setValue] = useState({});
+  const [symptoms, setSymptoms] = useState({});
+  const [chronic, setChronic] = useState({});
   const [checked, setChecked] = useState({});
-  const [country, setCountry] = useState();
 
-  const classes = useStyles();
 
-  const onSubmit = () => {
-    console.log(value);
-    console.log(checked);
-    console.log(country);
-  };
+  const onSubmit = async () => {
+    const data = {details: {...value}, symptoms: {...symptoms}, chronic: {...checked}}
+
+      if (!value.email) {
+        errorNotification("Email je obavezno polje.");
+        return;
+      }
+      if (!value.password) {
+        errorNotification("Lozinka je obavezno polje.");
+        return;
+      }
+
+      try {
+        const response = await publicAPI.post('/auth/register', {data});
+        history.push("/");
+        console.log(data)
+        console.log('response', response)
+      } catch(error) {
+        errorNotification('Error')
+      }
+    }
 
   const handleChangeCheckBox = (event, type) => {
     setChecked({ ...checked, [type]: event.target.checked });
@@ -135,8 +152,8 @@ export default function Registration() {
 
         <label> Da li imate temperaturu?</label>
       <Select
-        onChange={e => setValue({ ...value, temperature: e.target.value })}
-        value={value.temperature}
+        onChange={e => setSymptoms({ ...symptoms, temperature: e.target.value })}
+        value={symptoms.temperature}
         >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -146,8 +163,8 @@ export default function Registration() {
 
       <label>Da li imate kašalj?</label>
       <Select
-        onChange={e => setValue({ ...value, cough: e.target.value })}
-        value={value.cough}
+        onChange={e => setSymptoms({ ...symptoms, cough: e.target.value })}
+        value={symptoms.cough}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -157,8 +174,8 @@ export default function Registration() {
 
       <label>Da li imate bol u grudima?</label>
       <Select
-        onChange={e => setValue({ ...value, chestPain: e.target.value })}
-        value={value.chestPain}
+        onChange={e => setSymptoms({ ...symptoms, chestPain: e.target.value })}
+        value={symptoms.chestPain}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -168,8 +185,8 @@ export default function Registration() {
 
       <label>Da li imate bol u grlu?</label>
       <Select
-        onChange={e => setValue({ ...value, soreThroat: e.target.value })}
-        value={value.soreThroat}
+        onChange={e => setSymptoms({ ...symptoms, soreThroat: e.target.value })}
+        value={symptoms.soreThroat}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -179,8 +196,8 @@ export default function Registration() {
 
       <label>Da li poslednjih dana osećate malaksalost ili se umarate više nego obično?</label>
       <Select
-        onChange={e => setValue({ ...value, fever: e.target.value })}
-        value={value.fever}
+        onChange={e => setSymptoms({ ...symptoms, fever: e.target.value })}
+        value={symptoms.fever}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -190,8 +207,8 @@ export default function Registration() {
 
       <label>Da li otežano dišete?</label>
       <Select
-        onChange={e => setValue({ ...value, heavyBreathing: e.target.value })}
-        value={value.heavyBreathing}
+        onChange={e => setSymptoms({ ...symptoms, heavyBreathing: e.target.value })}
+        value={symptoms.heavyBreathing}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -201,8 +218,8 @@ export default function Registration() {
 
       <label>Da li imate glavobolju?</label>
       <Select
-        onChange={e => setValue({ ...value, headache: e.target.value })}
-        value={value.headache}
+        onChange={e => setSymptoms({ ...symptoms, headache: e.target.value })}
+        value={symptoms.headache}
       >
         <MenuItem value={true}>Da</MenuItem>
         <MenuItem value={false}>Ne</MenuItem>
@@ -225,8 +242,8 @@ export default function Registration() {
         <label>Da li se lečite od neke hronične bolesti?</label>
         <Select
           id="chronic"
-          onChange={e => setValue({ ...value, chronic: e.target.value })}
-          value={value.chronic}
+          onChange={e => setChronic({ ...chronic, chronicIllness: e.target.value })}
+          value={chronic.chronicIllness}
         >
           <MenuItem value={true}>Da</MenuItem>
           <MenuItem value={false}>Ne</MenuItem>
@@ -234,7 +251,7 @@ export default function Registration() {
 
         <Divider />
 
-        {value.chronic ? 
+        {chronic.chronicIllness ? 
         <>
         <label>Obeležite hronične bolesti od kojih bolujete: </label>
          <FormControlLabel
@@ -321,7 +338,7 @@ export default function Registration() {
               label="Navedite bolesti"
               value={value.disease}
               onChange={e =>
-                setValue({ ...value, ["disease"]: e.target.value })
+                setChronic({ ...chronic, ["disease"]: e.target.value })
               }
             />
           </div>
