@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../common/Header";
 import Divider from "../../common/Divider";
 import { Link } from "react-router-dom";
@@ -8,6 +8,8 @@ import history from "../../history";
 import styled from "styled-components";
 import { colors } from "../../utils/colors";
 import { errorNotification, successNotification } from "../../utils/toastrs";
+import { publicAPI } from "../../utils/api"
+import { setCookie } from "../../utils/coockie"
 
 const Container = styled.div`
   height: calc(100vh - 70px);
@@ -23,7 +25,8 @@ export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const handleLogin = () => {
+
+   const handleLogin = async event => {
     if (!email) {
       errorNotification("Email je obavezno polje.");
       return;
@@ -32,12 +35,20 @@ export default function Login() {
       errorNotification("Lozinka je obavezno polje.");
       return;
     }
-    history.push("/");
+
+    try {
+      const response = await publicAPI.post('/auth/login', { email, password})
+      setCookie('token', response.data.token)
+      setCookie('role', response.data.role)
+      history.push("/");
+    } catch(erorr) {
+      errorNotification("Ovaj korisnik ne postoji.")
+    }
   };
 
   return (
     <>
-      <Header />
+      <Header/>
       <Container>
         <h1>
           Budi odgovoran! Pomozi sebi i drugima. Vodi evidenciju o svom

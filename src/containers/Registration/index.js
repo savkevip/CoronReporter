@@ -7,32 +7,12 @@ import styled from "styled-components";
 import {
   Button,
   Select,
-  InputLabel,
   TextField,
   Checkbox,
   FormControlLabel,
   MenuItem
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
-const countries = [
-  { code: "BA", label: "Bosnia and Herzegovina", phone: "387" },
-  { code: "HR", label: "Croatia", phone: "385" },
-  { code: "ME", label: "Montenegro", phone: "382" },
-  { code: "MK", label: "North Macedonia", phone: "389" },
-  { code: "RS", label: "Serbia", phone: "381" },
-  { code: "SI", label: "Slovenia", phone: "386" }
-];
-
-function countryToFlag(isoCode) {
-  return typeof String.fromCodePoint !== "undefined"
-    ? isoCode
-        .toUpperCase()
-        .replace(/./g, char =>
-          String.fromCodePoint(char.charCodeAt(0) + 127397)
-        )
-    : isoCode;
-}
 
 const useStyles = makeStyles({
   option: {
@@ -79,7 +59,7 @@ export default function Registration() {
       <Form>
         <h1>Formular o simptomima</h1>
 
-        <InputLabel htmlFor="gender">Pol</InputLabel>
+        <label>Pol</label>
         <Select
           id="gender"
           onChange={e => setValue({ ...value, gender: e.target.value })}
@@ -92,9 +72,7 @@ export default function Registration() {
         {value.gender === "female" && (
           <>
             <Divider />
-            <InputLabel htmlFor="pregnancy">
-              Da li ste u drugom stanju?
-            </InputLabel>
+            <label>Da li ste u drugom stanju?</label>
             <Select
               id="pregnancy"
               onChange={e => setValue({ ...value, pregnancy: e.target.value })}
@@ -131,9 +109,7 @@ export default function Registration() {
 
         <Divider />
 
-        <InputLabel htmlFor="areas">
-          Da li ste boravili u rizičnim područjima?
-        </InputLabel>
+        <label> Da li ste boravili u rizičnim područjima?</label>
         <Select
           id="areas"
           onChange={e => setValue({ ...value, areas: e.target.value })}
@@ -145,9 +121,7 @@ export default function Registration() {
 
         <Divider />
 
-        <InputLabel htmlFor="contact">
-          Da li ste imali kontakt sa zaraženim osobama?
-        </InputLabel>
+        <label> Da li ste imali kontakt sa zaraženim osobama?</label>
         <Select
           id="contact"
           onChange={e => setValue({ ...value, contact: e.target.value })}
@@ -159,100 +133,84 @@ export default function Registration() {
 
         <Divider />
 
-        <InputLabel> Da li imate neki od navedenih simptoma? </InputLabel>
-        <Divider />
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "temperature")}
-              name="checked1"
-              color="primary"
-            />
-          }
-          label="Temperatura"
-        />
+        <label> Da li imate temperaturu?</label>
+      <Select
+        onChange={e => setValue({ ...value, temperature: e.target.value })}
+        value={value.temperature}
+        >
+        <MenuItem value={true}>Da</MenuItem>
+        <MenuItem value={false}>Ne</MenuItem>
+      </Select>
 
-        <Divider />
+      <Divider />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "caught")}
-              name="checked2"
-              color="primary"
-            />
-          }
-          label="Kašalj"
-        />
+      <label>Da li imate kašalj?</label>
+      <Select
+        onChange={e => setValue({ ...value, cough: e.target.value })}
+        value={value.cough}
+      >
+        <MenuItem value={true}>Da</MenuItem>
+        <MenuItem value={false}>Ne</MenuItem>
+      </Select>
 
-        <Divider />
+      <Divider />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "chest pain")}
-              name="checked3"
-              color="primary"
-            />
-          }
-          label="Bol u grudima"
-        />
+      <label>Da li imate bol u grudima?</label>
+      <Select
+        onChange={e => setValue({ ...value, chestPain: e.target.value })}
+        value={value.chestPain}
+      >
+        <MenuItem value={true}>Da</MenuItem>
+        <MenuItem value={false}>Ne</MenuItem>
+      </Select>
 
-        <Divider />
+      <Divider />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "sore throat")}
-              name="checked4"
-              color="primary"
-            />
-          }
-          label="Bol u grlu"
-        />
+      <label>Da li imate bol u grlu?</label>
+      <Select
+        onChange={e => setValue({ ...value, soreThroat: e.target.value })}
+        value={value.soreThroat}
+      >
+        <MenuItem value={true}>Da</MenuItem>
+        <MenuItem value={false}>Ne</MenuItem>
+      </Select>
 
-        <Divider />
+      <Divider />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "exhaustion")}
-              name="checked5"
-              color="primary"
-            />
-          }
-          label="Malaksalost"
-        />
+      <label>Da li poslednjih dana osećate malaksalost ili se umarate više nego obično?</label>
+      <Select
+        onChange={e => setValue({ ...value, fever: e.target.value })}
+        value={value.fever}
+      >
+        <MenuItem value={true}>Da</MenuItem>
+        <MenuItem value={false}>Ne</MenuItem>
+      </Select>
 
-        <Divider />
+      <Divider />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "hevy breathing")}
-              name="checked6"
-              color="primary"
-            />
-          }
-          label="Otežano disanje"
-        />
+      <label>Da li otežano dišete?</label>
+      <Select
+        onChange={e => setValue({ ...value, heavyBreathing: e.target.value })}
+        value={value.heavyBreathing}
+      >
+        <MenuItem value={true}>Da</MenuItem>
+        <MenuItem value={false}>Ne</MenuItem>
+      </Select>
 
-        <Divider />
+      <Divider />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "headache")}
-              name="checked7"
-              color="primary"
-            />
-          }
-          label="Glavobolja"
-        />
+      <label>Da li imate glavobolju?</label>
+      <Select
+        onChange={e => setValue({ ...value, headache: e.target.value })}
+        value={value.headache}
+      >
+        <MenuItem value={true}>Da</MenuItem>
+        <MenuItem value={false}>Ne</MenuItem>
+      </Select>
 
-        <Divider />
+      <Divider />
 
-        <InputLabel htmlFor="smoker">Da li ste pušač?</InputLabel>
+        <label htmlFor="smoker">Da li ste pušač?</label>
         <Select
           id="smoker"
           onChange={e => setValue({ ...value, smoke: e.target.value })}
@@ -264,30 +222,30 @@ export default function Registration() {
 
         <Divider />
 
-        <InputLabel>Da li se lečite od neke hronične bolesti?</InputLabel>
-        <Divider />
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "diabetes type 1")}
-              name="checked1"
-              color="primary"
-            />
-          }
-          label="Diabetes tip 1"
-        />
+        <label>Da li se lečite od neke hronične bolesti?</label>
+        <Select
+          id="chronic"
+          onChange={e => setValue({ ...value, chronic: e.target.value })}
+          value={value.chronic}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
         <Divider />
 
-        <FormControlLabel
+        {value.chronic ? 
+        <>
+        <label>Obeležite hronične bolesti od kojih bolujete: </label>
+         <FormControlLabel
           control={
             <Checkbox
-              onChange={e => handleChangeCheckBox(e, "diabetes type 2")}
-              name="checked2"
+              onChange={e => handleChangeCheckBox(e, "diabetes")}
+              name="diabetes"
               color="primary"
             />
           }
-          label="Diabetes tip 2"
+          label="Diabetes"
         />
 
         <Divider />
@@ -296,7 +254,7 @@ export default function Registration() {
           control={
             <Checkbox
               onChange={e => handleChangeCheckBox(e, "asthma")}
-              name="checked3"
+              name="asthma"
               color="primary"
             />
           }
@@ -309,7 +267,7 @@ export default function Registration() {
           control={
             <Checkbox
               onChange={e => handleChangeCheckBox(e, "copd")}
-              name="checked4"
+              name="copd"
               color="primary"
             />
           }
@@ -322,7 +280,7 @@ export default function Registration() {
           control={
             <Checkbox
               onChange={e => handleChangeCheckBox(e, "high blood preasure")}
-              name="checked5"
+              name="high blood preasure"
               color="primary"
             />
           }
@@ -335,7 +293,7 @@ export default function Registration() {
           control={
             <Checkbox
               onChange={e => handleChangeCheckBox(e, "tumor")}
-              name="checked6"
+              name="tumor"
               color="primary"
             />
           }
@@ -348,7 +306,7 @@ export default function Registration() {
           control={
             <Checkbox
               onChange={e => handleChangeCheckBox(e, "other")}
-              name="checked7"
+              name="other"
               color="primary"
             />
           }
@@ -368,12 +326,13 @@ export default function Registration() {
             />
           </div>
         )}
+        </>
+        :
+        null}
 
         <Divider />
 
-        <InputLabel htmlFor="surgery">
-          Da li ste imali neke operacije tokom života?
-        </InputLabel>
+        <label> Da li ste imali neke operacije tokom života?</label>
         <Select
           id="surgery"
           onChange={e => setValue({ ...value, surgery: e.target.value })}
@@ -385,31 +344,80 @@ export default function Registration() {
 
         <Divider />
 
-        <Autocomplete
-          onChange={(event, value) => setCountry(value)}
-          id="country-select"
-          options={countries}
-          classes={{
-            option: classes.option
-          }}
-          autoHighlight
-          getOptionLabel={option => option.label}
-          renderOption={option => (
-            <>
-              <span>{countryToFlag(option.code)}</span>
-              {option.label} {option.flag} ({option.code}) +{option.phone}
-            </>
-          )}
-          renderInput={params => (
-            <TextField
-              {...params}
-              label="Iz koje ste države?"
-              inputProps={{
-                ...params.inputProps,
-                autoComplete: "new-password"
-              }}
-            />
-          )}
+        <label>Jeste li posljednjih dana primetili nagli pad ili gubitak ukusa ili mirisa?</label>
+        <Select
+          id="sense"
+          onChange={e => setValue({ ...value, sense: e.target.value })}
+          value={value.sense}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
+
+        <Divider />
+
+        <label>Da li ste u poslednjih 24h imali dijareju?</label>
+        <Select
+          id="diarrhea"
+          onChange={e => setValue({ ...value, diarrhea: e.target.value })}
+          value={value.sense}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
+
+        <Divider />
+
+        <label>Da li imate bolesti srca ili povišeni krvni pritisak?</label>
+        <Select
+          id="heart diseases"
+          onChange={e => setValue({ ...value, heartDiseases: e.target.value })}
+          value={value.heartDiseases}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
+
+        <Divider />
+
+        <label>Da li bolujete od raka?</label>
+        <Select
+          id="cancer"
+          onChange={e => setValue({ ...value, cancer: e.target.value })}
+          value={value.cancer}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
+        
+        <Divider />
+
+        <TextField
+          id="height"
+          label="Koja je Vaša visina? (cm)"
+          type="number"
+          onChange={e => setValue({ ...value, height: e.target.value })}
+          value={value.height}
+        />
+
+        <Divider />
+
+        <TextField
+          id="weight"
+          label="Koja je Vaša kilaža? (kg)"
+          type="number"
+          onChange={e => setValue({ ...value, weight: e.target.value })}
+          value={value.weight}
+        />
+
+        <Divider />
+
+        <TextField
+          id="zip code"
+          label="Vaš poštanski broj?"
+          type="number"
+          onChange={e => setValue({ ...value, zipCode: e.target.value })}
+          value={value.zipCode}
         />
 
         <Divider />

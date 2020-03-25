@@ -1,6 +1,6 @@
 import axios from "axios";
 import history from "../history";
-import { getCookie, removeCookie } from "./cookie";
+import { getCookie, removeCookie } from "./coockie";
 
 const API_URL = "https://coronreporter-be.herokuapp.com/api";
 
