@@ -35,6 +35,7 @@ export default function Side({ user, open, setOpen }) {
     try {
       await privateAPI.put("/user/update", { ...data });
       successNotification("Uspešno ste ažurirali podatke.");
+      setOpen(false);
     } catch (error) {
       errorNotification("Greška.");
     }

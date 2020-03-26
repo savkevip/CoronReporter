@@ -14,7 +14,9 @@ import { systemError } from "../../utils/toastrs";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({
+    details: {}
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function Home() {
               <Map />
             </Wrapper>
             <Wrapper>
-              <Details user={currentUser} />
+              <Details user={currentUser.details} />
             </Wrapper>
             <SidebarUpdate user={currentUser} open={open} setOpen={setOpen} />
           </Container>
