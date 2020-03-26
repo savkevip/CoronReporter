@@ -67,20 +67,24 @@ export default function Registration() {
   const [chronic, setChronic] = useState(initialChronic);
   const [checked, setChecked] = useState({});
   const [acceptedTermsAndConditions, setTermsAndConditions] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onSubmit = async () => {
     const data = {
       details: { ...value },
       symptoms: { ...symptoms },
       chronic: { ...checked },
-      acceptedTermsAndConditions
+      acceptedTermsAndConditions,
+      email,
+      password
     };
 
-    if (!value.email) {
+    if (!email) {
       errorNotification("Email je obavezno polje.");
       return;
     }
-    if (!value.password) {
+    if (!password) {
       errorNotification("Lozinka je obavezno polje.");
       return;
     }
@@ -511,7 +515,7 @@ export default function Registration() {
           id="email"
           label="Vaša mail adresa?"
           type="email"
-          onChange={e => setValue({ ...value, email: e.target.value })}
+          onChange={e => setEmail(e.target.value)}
           value={value.email}
         />
 
@@ -521,7 +525,7 @@ export default function Registration() {
           id="password"
           label="Vaša lozinka?"
           type="password"
-          onChange={e => setValue({ ...value, password: e.target.value })}
+          onChange={e => setPassword(e.target.value)}
           value={value.password}
         />
 
