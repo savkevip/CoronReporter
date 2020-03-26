@@ -8,7 +8,7 @@ import {
   MenuItem
 } from "@material-ui/core";
 import { errorNotification } from "../../../../utils/toastrs";
-import { publicAPI } from "../../../../utils/api"
+import { privateAPI } from "../../../../utils/api"
 
 const Form = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ export default function Side({open, setOpen}) {
     console.log(data)
 
     try {
-      const response = await publicAPI.put('/user/update', {data})
+      const response = await privateAPI.put('/user/update', data)
       console.log('resp', response)
     } catch(error){
       errorNotification('Error')

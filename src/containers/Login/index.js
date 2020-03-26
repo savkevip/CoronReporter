@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../common/Header";
 import Divider from "../../common/Divider";
 import { Link } from "react-router-dom";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, CircularProgress } from "@material-ui/core";
 import PersonIcon from "@material-ui/icons/Person";
 import history from "../../history";
 import styled from "styled-components";
@@ -24,6 +24,11 @@ const Container = styled.div`
 export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  // const [isLoaded, setIsLoaded] = useState(false);
+
+  // useEffect(() => {
+  //   setIsLoaded(true)
+  // }, [])
 
 
    const handleLogin = async () => {
@@ -37,9 +42,10 @@ export default function Login() {
     }
 
     try {
-      const response = await publicAPI.post('/auth/login', { email, password})
-      setCookie('token', response.data.token)
-      setCookie('role', response.data.role)
+      const response = await publicAPI.post('/auth/login', { email, password});
+      setCookie('token', response.data.token);
+      setCookie('role', response.data.role);
+      // setIsLoaded(true);
       history.push("/");
     } catch(erorr) {
       errorNotification("Ovaj korisnik ne postoji.")

@@ -4,7 +4,6 @@ import Divider from "../../common/Divider";
 import history from "../../history";
 import styled from "styled-components";
 import { errorNotification, successNotification } from "../../utils/toastrs";
-import { makeStyles } from "@material-ui/core/styles";
 import { publicAPI } from "../../utils/api"
 import {
   Button,
@@ -15,15 +14,6 @@ import {
   MenuItem
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  option: {
-    fontSize: 15,
-    "& > span": {
-      marginRight: 10,
-      fontSize: 18
-    }
-  }
-});
 
 const Container = styled.div``;
 
@@ -32,15 +22,54 @@ const Form = styled.div`
   flex-direction: column;
 `;
 
+const initialSymptoms = {
+  temperature: false,
+  cough: false,
+  chestPain: false,
+  soreThroat: false,
+  fever: false,
+  heavyBreathing: false,
+  headache: false
+}
+
+const initialDetails = {
+  gender: '',
+  pregnancy: false,
+  month: '',
+  age: '',
+  areas: false,
+  contact: false,
+  smoke: false,
+  surgery: false,
+  sense: false,
+  diarrhea: false,
+  heartDiseases: false,
+  cancer: false,
+  height: false,
+  weight: false,
+  zipCode: false,
+}
+
+const initialChronic = {
+  diabetes: false,
+  asthma: false,
+  copd: false,
+  highBloodPreasure: false,
+  tumor: false,
+  other: false,
+  disease: ''
+}
+
 export default function Registration() {
-  const [value, setValue] = useState({});
-  const [symptoms, setSymptoms] = useState({});
-  const [chronic, setChronic] = useState({});
+  const [value, setValue] = useState(initialDetails);
+  const [symptoms, setSymptoms] = useState(initialSymptoms);
+  const [chronic, setChronic] = useState(initialChronic);
   const [checked, setChecked] = useState({});
+  const [acceptedTermsAndConditions, setTermsAndConditions] = useState(false);
 
 
   const onSubmit = async () => {
-    const data = {details: {...value}, symptoms: {...symptoms}, chronic: {...checked}}
+    const data = {details: {...value}, symptoms: {...symptoms}, chronic: {...checked}, acceptedTermsAndConditions}
 
       if (!value.email) {
         errorNotification("Email je obavezno polje.");
@@ -53,7 +82,9 @@ export default function Registration() {
 
       try {
         const response = await publicAPI.post('/auth/register', {data});
+        console.log(acceptedTermsAndConditions)
         history.push("/");
+        //sucsess message 
         console.log(data)
         console.log('response', response)
       } catch(error) {
@@ -64,6 +95,26 @@ export default function Registration() {
   const handleChangeCheckBox = (event, type) => {
     setChecked({ ...checked, [type]: event.target.checked });
   };
+
+  const handlePregnancy = (pregnancy) => {
+    if(pregnancy){
+      setValue({...value, pregnancy: true})
+      return;
+    }
+    setValue({...value, pregnancy: false, month: ''})
+  }
+
+  const handleOther = (other) => {
+    if(other) {
+      setValue({...value, other: true})
+      return;
+    }
+    setValue({...value, other: false, disease: ''})
+  }
+
+  const handleDisease = (disease) => {
+    setChronic({...chronic, disease})
+  }
 
   const goBack = () => history.push("/login");
 
@@ -92,7 +143,7 @@ export default function Registration() {
             <label>Da li ste u drugom stanju?</label>
             <Select
               id="pregnancy"
-              onChange={e => setValue({ ...value, pregnancy: e.target.value })}
+              onChange={e => handlePregnancy(e.target.value)}
               value={value.pregnancy}
             >
               <MenuItem value={true}>Da</MenuItem>
@@ -296,8 +347,8 @@ export default function Registration() {
         <FormControlLabel
           control={
             <Checkbox
-              onChange={e => handleChangeCheckBox(e, "high blood preasure")}
-              name="high blood preasure"
+              onChange={e => handleChangeCheckBox(e, "highBloodPreasure")}
+              name="highBloodPreasure"
               color="primary"
             />
           }
@@ -322,7 +373,7 @@ export default function Registration() {
         <FormControlLabel
           control={
             <Checkbox
-              onChange={e => handleChangeCheckBox(e, "other")}
+              onChange={e => handleOther(e.target.checked)}
               name="other"
               color="primary"
             />
@@ -338,7 +389,7 @@ export default function Registration() {
               label="Navedite bolesti"
               value={value.disease}
               onChange={e =>
-                setChronic({ ...chronic, ["disease"]: e.target.value })
+                handleDisease(e.target.value)
               }
             />
           </div>
@@ -455,6 +506,19 @@ export default function Registration() {
           type="password"
           onChange={e => setValue({ ...value, password: e.target.value })}
           value={value.password}
+        />
+
+        <Divider />
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={() => setTermsAndConditions(!acceptedTermsAndConditions)}
+              name="terms"
+              color="primary"
+            />
+          }
+          label="Terms and Conditions"
         />
 
         <Divider />

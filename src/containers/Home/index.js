@@ -8,11 +8,20 @@ import LogOutIcon from "@material-ui/icons/Person";
 import history from "../../history";
 import { Container, Wrapper } from "./styles";
 import SidebarUpdate from "./components/SidebarUpdate"
+import { privateAPI } from '../../utils/api'
 
 const user = {
   email: "zarazeni@gmail.com",
   gender: "male"
 };
+
+//get req na '/user/details', private url, 
+//pass the details as props sidebar
+//imam problem sa get requestom i login ne radi, izbacuje gresku kao da korisnik ne postoji
+
+//regisrtation, update, login
+//loaders na buttons
+//postoji neki problem sa login, update i register, nista nisam uspeo da uradim
 
 export default function Home() {
   const [open, setOpen] = useState(false);
