@@ -4,7 +4,7 @@ import Divider from "../../common/Divider";
 import history from "../../history";
 import styled from "styled-components";
 import { errorNotification, successNotification } from "../../utils/toastrs";
-import { publicAPI } from "../../utils/api"
+import { publicAPI } from "../../utils/api";
 import {
   Button,
   Select,
@@ -13,13 +13,14 @@ import {
   FormControlLabel,
   MenuItem
 } from "@material-ui/core";
-
+import {setCookie} from "../../utils/coockie";
 
 const Container = styled.div``;
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 30px;
 `;
 
 const initialSymptoms = {
@@ -30,13 +31,13 @@ const initialSymptoms = {
   fever: false,
   heavyBreathing: false,
   headache: false
-}
+};
 
 const initialDetails = {
-  gender: '',
+  gender: "",
   pregnancy: false,
-  month: '',
-  age: '',
+  month: "",
+  age: "",
   areas: false,
   contact: false,
   smoke: false,
@@ -47,18 +48,18 @@ const initialDetails = {
   cancer: false,
   height: false,
   weight: false,
-  zipCode: false,
-}
+  zipCode: false
+};
 
 const initialChronic = {
   diabetes: false,
   asthma: false,
   copd: false,
-  highBloodPreasure: false,
+  highBloodPressure: false,
   tumor: false,
   other: false,
-  disease: ''
-}
+  disease: ""
+};
 
 export default function Registration() {
   const [value, setValue] = useState(initialDetails);
@@ -67,54 +68,57 @@ export default function Registration() {
   const [checked, setChecked] = useState({});
   const [acceptedTermsAndConditions, setTermsAndConditions] = useState(false);
 
-
   const onSubmit = async () => {
-    const data = {details: {...value}, symptoms: {...symptoms}, chronic: {...checked}, acceptedTermsAndConditions}
+    const data = {
+      details: { ...value },
+      symptoms: { ...symptoms },
+      chronic: { ...checked },
+      acceptedTermsAndConditions
+    };
 
-      if (!value.email) {
-        errorNotification("Email je obavezno polje.");
-        return;
-      }
-      if (!value.password) {
-        errorNotification("Lozinka je obavezno polje.");
-        return;
-      }
-
-      try {
-        const response = await publicAPI.post('/auth/register', {data});
-        console.log(acceptedTermsAndConditions)
-        history.push("/");
-        //sucsess message 
-        console.log(data)
-        console.log('response', response)
-      } catch(error) {
-        errorNotification('Error')
-      }
+    if (!value.email) {
+      errorNotification("Email je obavezno polje.");
+      return;
     }
+    if (!value.password) {
+      errorNotification("Lozinka je obavezno polje.");
+      return;
+    }
+
+    try {
+      const response = await publicAPI.post("/auth/register", { ...data });
+      setCookie("token", response.data.token);
+      setCookie("role", response.data.role);
+      history.push("/");
+      successNotification("Uspešno ste se registrovali.");
+    } catch (error) {
+      errorNotification("Greška.");
+    }
+  };
 
   const handleChangeCheckBox = (event, type) => {
     setChecked({ ...checked, [type]: event.target.checked });
   };
 
-  const handlePregnancy = (pregnancy) => {
-    if(pregnancy){
-      setValue({...value, pregnancy: true})
+  const handlePregnancy = pregnancy => {
+    if (pregnancy) {
+      setValue({ ...value, pregnancy: true });
       return;
     }
-    setValue({...value, pregnancy: false, month: ''})
-  }
+    setValue({ ...value, pregnancy: false, month: "" });
+  };
 
-  const handleOther = (other) => {
-    if(other) {
-      setValue({...value, other: true})
+  const handleOther = other => {
+    if (other) {
+      setValue({ ...value, other: true });
       return;
     }
-    setValue({...value, other: false, disease: ''})
-  }
+    setValue({ ...value, other: false, disease: "" });
+  };
 
-  const handleDisease = (disease) => {
-    setChronic({...chronic, disease})
-  }
+  const handleDisease = disease => {
+    setChronic({ ...chronic, disease });
+  };
 
   const goBack = () => history.push("/login");
 
@@ -202,81 +206,92 @@ export default function Registration() {
         <Divider />
 
         <label> Da li imate temperaturu?</label>
-      <Select
-        onChange={e => setSymptoms({ ...symptoms, temperature: e.target.value })}
-        value={symptoms.temperature}
+        <Select
+          onChange={e =>
+            setSymptoms({ ...symptoms, temperature: e.target.value })
+          }
+          value={symptoms.temperature}
         >
-        <MenuItem value={true}>Da</MenuItem>
-        <MenuItem value={false}>Ne</MenuItem>
-      </Select>
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
-      <Divider />
+        <Divider />
 
-      <label>Da li imate kašalj?</label>
-      <Select
-        onChange={e => setSymptoms({ ...symptoms, cough: e.target.value })}
-        value={symptoms.cough}
-      >
-        <MenuItem value={true}>Da</MenuItem>
-        <MenuItem value={false}>Ne</MenuItem>
-      </Select>
+        <label>Da li imate kašalj?</label>
+        <Select
+          onChange={e => setSymptoms({ ...symptoms, cough: e.target.value })}
+          value={symptoms.cough}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
-      <Divider />
+        <Divider />
 
-      <label>Da li imate bol u grudima?</label>
-      <Select
-        onChange={e => setSymptoms({ ...symptoms, chestPain: e.target.value })}
-        value={symptoms.chestPain}
-      >
-        <MenuItem value={true}>Da</MenuItem>
-        <MenuItem value={false}>Ne</MenuItem>
-      </Select>
+        <label>Da li imate bol u grudima?</label>
+        <Select
+          onChange={e =>
+            setSymptoms({ ...symptoms, chestPain: e.target.value })
+          }
+          value={symptoms.chestPain}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
-      <Divider />
+        <Divider />
 
-      <label>Da li imate bol u grlu?</label>
-      <Select
-        onChange={e => setSymptoms({ ...symptoms, soreThroat: e.target.value })}
-        value={symptoms.soreThroat}
-      >
-        <MenuItem value={true}>Da</MenuItem>
-        <MenuItem value={false}>Ne</MenuItem>
-      </Select>
+        <label>Da li imate bol u grlu?</label>
+        <Select
+          onChange={e =>
+            setSymptoms({ ...symptoms, soreThroat: e.target.value })
+          }
+          value={symptoms.soreThroat}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
-      <Divider />
+        <Divider />
 
-      <label>Da li poslednjih dana osećate malaksalost ili se umarate više nego obično?</label>
-      <Select
-        onChange={e => setSymptoms({ ...symptoms, fever: e.target.value })}
-        value={symptoms.fever}
-      >
-        <MenuItem value={true}>Da</MenuItem>
-        <MenuItem value={false}>Ne</MenuItem>
-      </Select>
+        <label>
+          Da li poslednjih dana osećate malaksalost ili se umarate više nego
+          obično?
+        </label>
+        <Select
+          onChange={e => setSymptoms({ ...symptoms, fever: e.target.value })}
+          value={symptoms.fever}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
-      <Divider />
+        <Divider />
 
-      <label>Da li otežano dišete?</label>
-      <Select
-        onChange={e => setSymptoms({ ...symptoms, heavyBreathing: e.target.value })}
-        value={symptoms.heavyBreathing}
-      >
-        <MenuItem value={true}>Da</MenuItem>
-        <MenuItem value={false}>Ne</MenuItem>
-      </Select>
+        <label>Da li otežano dišete?</label>
+        <Select
+          onChange={e =>
+            setSymptoms({ ...symptoms, heavyBreathing: e.target.value })
+          }
+          value={symptoms.heavyBreathing}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
-      <Divider />
+        <Divider />
 
-      <label>Da li imate glavobolju?</label>
-      <Select
-        onChange={e => setSymptoms({ ...symptoms, headache: e.target.value })}
-        value={symptoms.headache}
-      >
-        <MenuItem value={true}>Da</MenuItem>
-        <MenuItem value={false}>Ne</MenuItem>
-      </Select>
+        <label>Da li imate glavobolju?</label>
+        <Select
+          onChange={e => setSymptoms({ ...symptoms, headache: e.target.value })}
+          value={symptoms.headache}
+        >
+          <MenuItem value={true}>Da</MenuItem>
+          <MenuItem value={false}>Ne</MenuItem>
+        </Select>
 
-      <Divider />
+        <Divider />
 
         <label htmlFor="smoker">Da li ste pušač?</label>
         <Select
@@ -293,7 +308,9 @@ export default function Registration() {
         <label>Da li se lečite od neke hronične bolesti?</label>
         <Select
           id="chronic"
-          onChange={e => setChronic({ ...chronic, chronicIllness: e.target.value })}
+          onChange={e =>
+            setChronic({ ...chronic, chronicIllness: e.target.value })
+          }
           value={chronic.chronicIllness}
         >
           <MenuItem value={true}>Da</MenuItem>
@@ -302,101 +319,98 @@ export default function Registration() {
 
         <Divider />
 
-        {chronic.chronicIllness ? 
-        <>
-        <label>Obeležite hronične bolesti od kojih bolujete: </label>
-         <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "diabetes")}
-              name="diabetes"
-              color="primary"
-            />
-          }
-          label="Diabetes"
-        />
-
-        <Divider />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "asthma")}
-              name="asthma"
-              color="primary"
-            />
-          }
-          label="Astma"
-        />
-
-        <Divider />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "copd")}
-              name="copd"
-              color="primary"
-            />
-          }
-          label="COPD"
-        />
-
-        <Divider />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "highBloodPreasure")}
-              name="highBloodPreasure"
-              color="primary"
-            />
-          }
-          label="Visok krvni pritisak"
-        />
-
-        <Divider />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleChangeCheckBox(e, "tumor")}
-              name="tumor"
-              color="primary"
-            />
-          }
-          label="Tumorske bolesti"
-        />
-
-        <Divider />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={e => handleOther(e.target.checked)}
-              name="other"
-              color="primary"
-            />
-          }
-          label="Druge bolesti"
-        />
-
-        {checked.other && (
-          <div>
-            <Divider />
-            <TextField
-              id="other"
-              label="Navedite bolesti"
-              value={value.disease}
-              onChange={e =>
-                handleDisease(e.target.value)
+        {chronic.chronicIllness ? (
+          <>
+            <label>Obeležite hronične bolesti od kojih bolujete: </label>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={e => handleChangeCheckBox(e, "diabetes")}
+                  name="diabetes"
+                  color="primary"
+                />
               }
+              label="Diabetes"
             />
-          </div>
-        )}
-        </>
-        :
-        null}
+
+            <Divider />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={e => handleChangeCheckBox(e, "asthma")}
+                  name="asthma"
+                  color="primary"
+                />
+              }
+              label="Astma"
+            />
+
+            <Divider />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={e => handleChangeCheckBox(e, "copd")}
+                  name="copd"
+                  color="primary"
+                />
+              }
+              label="COPD"
+            />
+
+            <Divider />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={e => handleChangeCheckBox(e, "highBloodPressure")}
+                  name="highBloodPressure"
+                  color="primary"
+                />
+              }
+              label="Visok krvni pritisak"
+            />
+
+            <Divider />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={e => handleChangeCheckBox(e, "tumor")}
+                  name="tumor"
+                  color="primary"
+                />
+              }
+              label="Tumorske bolesti"
+            />
+
+            <Divider />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={e => handleOther(e.target.checked)}
+                  name="other"
+                  color="primary"
+                />
+              }
+              label="Druge bolesti"
+            />
+
+            {checked.other && (
+              <div>
+                <Divider />
+                <TextField
+                  id="other"
+                  label="Navedite bolesti"
+                  value={value.disease}
+                  onChange={e => handleDisease(e.target.value)}
+                />
+              </div>
+            )}
+          </>
+        ) : null}
 
         <Divider />
 
@@ -412,7 +426,10 @@ export default function Registration() {
 
         <Divider />
 
-        <label>Jeste li posljednjih dana primetili nagli pad ili gubitak ukusa ili mirisa?</label>
+        <label>
+          Jeste li posljednjih dana primetili nagli pad ili gubitak ukusa ili
+          mirisa?
+        </label>
         <Select
           id="sense"
           onChange={e => setValue({ ...value, sense: e.target.value })}
@@ -457,7 +474,7 @@ export default function Registration() {
           <MenuItem value={true}>Da</MenuItem>
           <MenuItem value={false}>Ne</MenuItem>
         </Select>
-        
+
         <Divider />
 
         <TextField
@@ -513,7 +530,9 @@ export default function Registration() {
         <FormControlLabel
           control={
             <Checkbox
-              onChange={() => setTermsAndConditions(!acceptedTermsAndConditions)}
+              onChange={() =>
+                setTermsAndConditions(!acceptedTermsAndConditions)
+              }
               name="terms"
               color="primary"
             />
