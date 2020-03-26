@@ -11,8 +11,8 @@ const Container = styled.div`
 export default function Details({ user }) {
   return (
     <Container>
-      <span>{user.email}</span>
-      <span>{user.gender}</span>
+      <span>{user.details.email}</span>
+      <span>{user.details.gender}</span>
       <CustomButton
         variant="contained"
         color="secondary"

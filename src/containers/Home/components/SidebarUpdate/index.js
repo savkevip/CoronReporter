@@ -3,9 +3,12 @@ import Divider from "../../../../common/Divider";
 import Sidebar from "../../../../common/Sidebar";
 import styled from "styled-components";
 import { Button, Select, MenuItem } from "@material-ui/core";
-import {errorNotification, successNotification} from "../../../../utils/toastrs";
+import {
+  errorNotification,
+  successNotification
+} from "../../../../utils/toastrs";
 import { privateAPI } from "../../../../utils/api";
-import {setCookie} from "../../../../utils/coockie";
+import { setCookie } from "../../../../utils/coockie";
 
 const Form = styled.div`
   display: flex;
@@ -22,7 +25,7 @@ export default function Side({ open, setOpen }) {
 
     try {
       await privateAPI.put("/user/update", { ...data });
-      successNotification("Uspešno ste ažurirali podatke.")
+      successNotification("Uspešno ste ažurirali podatke.");
     } catch (error) {
       errorNotification("Greška.");
     }

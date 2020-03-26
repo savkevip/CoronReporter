@@ -13,7 +13,7 @@ import {
   FormControlLabel,
   MenuItem
 } from "@material-ui/core";
-import {setCookie} from "../../utils/coockie";
+import { setCookie } from "../../utils/coockie";
 
 const Container = styled.div``;
 
