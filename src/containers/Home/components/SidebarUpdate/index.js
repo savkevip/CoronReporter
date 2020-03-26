@@ -22,12 +22,14 @@ export default function Side({ user, open, setOpen }) {
 
   const onSubmit = async () => {
     const data = {
-      ...user,
+      acceptedTermsAndConditions: user.acceptedTermsAndConditions,
       details: {
+        ...value,
         contact: value.contact,
         areas: value.areas
       },
-      symptoms: { ...symptom }
+      symptoms: { ...symptom },
+      chronic: { ...user.chronic }
     };
 
     try {
