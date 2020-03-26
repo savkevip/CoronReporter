@@ -65,7 +65,7 @@ export default function Home() {
             <Wrapper>
               <Details user={currentUser} />
             </Wrapper>
-            <SidebarUpdate open={open} setOpen={setOpen} />
+            <SidebarUpdate user={currentUser} open={open} setOpen={setOpen} />
           </Container>
         </>
       )}

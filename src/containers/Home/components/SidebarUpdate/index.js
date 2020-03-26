@@ -16,12 +16,19 @@ const Form = styled.div`
   margin: 0 auto !important;
 `;
 
-export default function Side({ open, setOpen }) {
-  const [value, setValue] = useState({});
-  const [symptom, setSymptom] = useState({});
+export default function Side({ user, open, setOpen }) {
+  const [value, setValue] = useState({ ...user.details });
+  const [symptom, setSymptom] = useState({ ...user.symptoms });
 
   const onSubmit = async () => {
-    const data = { details: { ...value }, symptoms: { ...symptom } };
+    const data = {
+      ...user,
+      details: {
+        contact: value.contact,
+        areas: value.areas
+      },
+      symptoms: { ...symptom }
+    };
 
     try {
       await privateAPI.put("/user/update", { ...data });
