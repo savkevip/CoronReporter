@@ -7,8 +7,15 @@ import {
   errorNotification,
   successNotification
 } from "../../../../utils/toastrs";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import { privateAPI } from "../../../../utils/api";
-import { setCookie } from "../../../../utils/coockie";
+import { removeCookie } from "../../../../utils/coockie";
+import history from "../../../../history"
 
 const Form = styled.div`
   display: flex;
@@ -16,9 +23,14 @@ const Form = styled.div`
   margin: 0 auto !important;
 `;
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function Side({ user, open, setOpen }) {
   const [value, setValue] = useState({ ...user.details });
   const [symptom, setSymptom] = useState({ ...user.symptoms });
+  const [message, setMessage] = useState(false);
 
   const onSubmit = async () => {
     const data = {
@@ -42,6 +54,28 @@ export default function Side({ user, open, setOpen }) {
       errorNotification("Greška.");
     }
   };
+
+  const handleOpen = () => {
+    setMessage(true)
+  }
+
+  const handleMessageBack = () => {
+    setMessage(false)
+  }
+
+  const handleDelete =  async () => {
+
+    try {
+    await privateAPI.delete('/user/delete');
+    successNotification("Uspešno ste obrisali nalog.");
+    history.push("/login");
+    removeCookie("token")
+    removeCookie("role")
+    }catch (error) {
+      errorNotification("Greška.");
+    }
+
+  }
 
   return (
     <Sidebar anchor="right" open={open} onClose={() => setOpen(false)}>
@@ -148,14 +182,40 @@ export default function Side({ user, open, setOpen }) {
       </Button>
       <Divider />
       <Button
-        type="submit"
-        onClick={() => console.log("Hi, doctor!")}
+        onClick={handleOpen}
         variant="contained"
         color="secondary"
         size="small"
       >
         Obriši profil
       </Button>
+      {message ? 
+            <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleMessageBack}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+            >
+              <DialogTitle id="alert-dialog-slide-title">{"Obriši nalog?"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-slide-description">
+                    Ukoliko obrišete nalog, svi vaši podaci će zauvek biti uklonjeni.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleMessageBack} color="primary" id="back">
+                  Vrati se
+                </Button>
+                <Button onClick={handleDelete} color="secondary" id="delete">
+                  Obriši
+                </Button>
+              </DialogActions>
+            </Dialog>
+              :
+              null
+              }
     </Sidebar>
   );
 }

@@ -541,7 +541,7 @@ export default function Registration() {
               color="primary"
             />
           }
-          label="Terms and Conditions"
+          label="Prava i uslovi korišćenja"
         />
 
         <Divider />

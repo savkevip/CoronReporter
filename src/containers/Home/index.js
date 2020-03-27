@@ -11,6 +11,7 @@ import { Container, Wrapper, LoaderWrapper } from "./styles";
 import SidebarUpdate from "./components/SidebarUpdate";
 import { privateAPI } from "../../utils/api";
 import { systemError } from "../../utils/toastrs";
+import {removeCookie} from "../../utils/coockie" 
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -34,6 +35,8 @@ export default function Home() {
 
   const logOut = () => {
     history.push("/login");
+    removeCookie("token");
+    removeCookie("role")
   };
 
   return (
