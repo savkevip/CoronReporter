@@ -35,7 +35,6 @@ export default function Side({ user, open, setOpen }) {
   const onSubmit = async () => {
     const data = {
       email: user.email,
-      password: user.password,
       acceptedTermsAndConditions: user.acceptedTermsAndConditions,
       details: {
         ...value,
