@@ -7,6 +7,7 @@ import {
   errorNotification,
   successNotification
 } from "../../../../utils/toastrs";
+// pa sto ovako? :D pogledaj 5u liniju koda -> nemoj copy -> paste :D
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -23,6 +24,7 @@ const Form = styled.div`
   margin: 0 auto !important;
 `;
 
+// obrisi ovo moze i bez tranzicije samo ce ref da nam se zali iz browsera u browser otvori console i videces :D
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -30,6 +32,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Side({ user, open, setOpen }) {
   const [value, setValue] = useState({ ...user.details });
   const [symptom, setSymptom] = useState({ ...user.symptoms });
+  // promeni naming -> openDeleteDialog, setOpenDeleteDialog
   const [message, setMessage] = useState(false);
 
   const onSubmit = async () => {
@@ -54,6 +57,7 @@ export default function Side({ user, open, setOpen }) {
     }
   };
 
+  // ovo moze u jednu funkciju (61, 65) -> handleToggle = () => setOpenDeleteDialog(!openDeleteDialog)
   const handleOpen = () => {
     setMessage(true)
   }
@@ -63,12 +67,12 @@ export default function Side({ user, open, setOpen }) {
   }
 
   const handleDelete =  async () => {
-
+    // instaliraj Prettier mora ti pokazes da ti sam formatira kod da ne udaras po `space`-u sam :D
     try {
     await privateAPI.delete('/user/delete');
-    successNotification("Uspešno ste obrisali nalog.");
-    history.push("/login");
-    removeCookie("token")
+    successNotification("Uspešno ste obrisali nalog."); // ovo na kraju
+    history.push("/login"); // ovo iznad notifikacije
+    removeCookie("token") // prvo brises kolacice :D
     removeCookie("role")
     }catch (error) {
       errorNotification("Greška.");
@@ -80,7 +84,7 @@ export default function Side({ user, open, setOpen }) {
     <Sidebar anchor="right" open={open} onClose={() => setOpen(false)}>
       <h2>Azurirajte svoje trenutno stanje</h2>
       <Form>
-        <label> Da li imate temperaturu?</label>
+        <label>Da li imate temperaturu?</label>
         <Select
           onChange={e =>
             setSymptom({ ...symptom, temperature: e.target.value })
@@ -188,7 +192,11 @@ export default function Side({ user, open, setOpen }) {
       >
         Obriši profil
       </Button>
-      {message ? 
+      {/*nema potrebe za ovo message to treba da bude rename-ovano ko sto sam ti napisao gore i da ide u open property dole*/}
+      {/*ubicu te sa ovi kopiranjem koda :D :D*/}
+      {/*sad ispada da Dialog koristi `open` vrednost od sidebara*/}
+      {/*vidi sta znaci u dokumentaciji keep mointed property i da li nam treba to uopste isto ovi id-jevi*/}
+      {message ?
             <Dialog
             open={open}
             TransitionComponent={Transition}
