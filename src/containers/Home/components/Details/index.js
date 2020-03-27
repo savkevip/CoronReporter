@@ -15,6 +15,8 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+// ovo izbrisi imamo styled components ocu u tome da uradis ovo isto :D
+// namuci se malo da naucis opet copy paste :D
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -33,12 +35,14 @@ const useStyles = makeStyles({
 });
 
 export default function Details({ user }) {
+    // i ovo izbrisi :D
   const classes = useStyles();
-  
+
   return (
     <Container>
         <Card className={classes.root}>
             <CardContent>
+              {/* unutar ove CardContent komponente -> ceo refactor :D */}
               <AssignmentIndIcon fontSize="large" color="primary"/>
               <Typography variant="body2" component="p">
                 Email: {user.email}

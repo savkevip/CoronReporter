@@ -11,7 +11,7 @@ import { Container, Wrapper, LoaderWrapper } from "./styles";
 import SidebarUpdate from "./components/SidebarUpdate";
 import { privateAPI } from "../../utils/api";
 import { systemError } from "../../utils/toastrs";
-import {removeCookie} from "../../utils/coockie" 
+import {removeCookie} from "../../utils/coockie"
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -34,6 +34,7 @@ export default function Home() {
   }, []);
 
   const logOut = () => {
+    // i ovde prvo brises kolacice pa onda na login
     history.push("/login");
     removeCookie("token");
     removeCookie("role")
