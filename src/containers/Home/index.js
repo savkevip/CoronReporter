@@ -34,10 +34,9 @@ export default function Home() {
   }, []);
 
   const logOut = () => {
-    // i ovde prvo brises kolacice pa onda na login
-    history.push("/login");
     removeCookie("token");
     removeCookie("role")
+    history.push("/login");
   };
 
   return (
@@ -69,7 +68,7 @@ export default function Home() {
               <Map />
             </Wrapper>
             <Wrapper>
-              <Details user={currentUser.details} />
+              <Details user={currentUser.details} email={currentUser.email} />
             </Wrapper>
             <SidebarUpdate user={currentUser} open={open} setOpen={setOpen} />
           </Container>

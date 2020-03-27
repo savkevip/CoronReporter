@@ -2,18 +2,20 @@ import React, { useState } from "react";
 import Divider from "../../../../common/Divider";
 import Sidebar from "../../../../common/Sidebar";
 import styled from "styled-components";
-import { Button, Select, MenuItem } from "@material-ui/core";
+import { 
+  Button, 
+  Select, 
+  MenuItem,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle 
+} from "@material-ui/core";
 import {
   errorNotification,
   successNotification
 } from "../../../../utils/toastrs";
-// pa sto ovako? :D pogledaj 5u liniju koda -> nemoj copy -> paste :D
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
 import { privateAPI } from "../../../../utils/api";
 import { removeCookie } from "../../../../utils/coockie";
 import history from "../../../../history"
@@ -24,16 +26,10 @@ const Form = styled.div`
   margin: 0 auto !important;
 `;
 
-// obrisi ovo moze i bez tranzicije samo ce ref da nam se zali iz browsera u browser otvori console i videces :D
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 export default function Side({ user, open, setOpen }) {
   const [value, setValue] = useState({ ...user.details });
   const [symptom, setSymptom] = useState({ ...user.symptoms });
-  // promeni naming -> openDeleteDialog, setOpenDeleteDialog
-  const [message, setMessage] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const onSubmit = async () => {
     const data = {
@@ -57,23 +53,18 @@ export default function Side({ user, open, setOpen }) {
     }
   };
 
-  // ovo moze u jednu funkciju (61, 65) -> handleToggle = () => setOpenDeleteDialog(!openDeleteDialog)
-  const handleOpen = () => {
-    setMessage(true)
+  const handleDialog = () => {
+    setOpenDeleteDialog(!openDeleteDialog)
   }
 
-  const handleMessageBack = () => {
-    setMessage(false)
-  }
 
   const handleDelete =  async () => {
-    // instaliraj Prettier mora ti pokazes da ti sam formatira kod da ne udaras po `space`-u sam :D
     try {
     await privateAPI.delete('/user/delete');
-    successNotification("Uspešno ste obrisali nalog."); // ovo na kraju
-    history.push("/login"); // ovo iznad notifikacije
-    removeCookie("token") // prvo brises kolacice :D
-    removeCookie("role")
+    removeCookie("token");
+    removeCookie("role");
+    history.push("/login");
+    successNotification("Uspešno ste obrisali nalog.");
     }catch (error) {
       errorNotification("Greška.");
     }
@@ -185,34 +176,27 @@ export default function Side({ user, open, setOpen }) {
       </Button>
       <Divider />
       <Button
-        onClick={handleOpen}
+        onClick={handleDialog}
         variant="contained"
         color="secondary"
         size="small"
       >
         Obriši profil
       </Button>
-      {/*nema potrebe za ovo message to treba da bude rename-ovano ko sto sam ti napisao gore i da ide u open property dole*/}
-      {/*ubicu te sa ovi kopiranjem koda :D :D*/}
-      {/*sad ispada da Dialog koristi `open` vrednost od sidebara*/}
-      {/*vidi sta znaci u dokumentaciji keep mointed property i da li nam treba to uopste isto ovi id-jevi*/}
-      {message ?
+      {openDeleteDialog ?
             <Dialog
-            open={open}
-            TransitionComponent={Transition}
+            open={openDeleteDialog}
             keepMounted
-            onClose={handleMessageBack}
-            aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="alert-dialog-slide-description"
+            onClose={handleDialog}
             >
-              <DialogTitle id="alert-dialog-slide-title">{"Obriši nalog?"}</DialogTitle>
+              <DialogTitle>{"Obriši nalog?"}</DialogTitle>
                 <DialogContent>
-                  <DialogContentText id="alert-dialog-slide-description">
+                  <DialogContentText>
                     Ukoliko obrišete nalog, svi vaši podaci će zauvek biti uklonjeni.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleMessageBack} color="primary" id="back">
+                <Button onClick={handleDialog} color="primary" id="back">
                   Vrati se
                 </Button>
                 <Button onClick={handleDelete} color="secondary" id="delete">

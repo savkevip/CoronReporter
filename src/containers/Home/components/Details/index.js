@@ -3,57 +3,38 @@ import styled from "styled-components";
 import HelpIcon from "@material-ui/icons/LocalHospital";
 import CustomButton from "../../../../common/CustomButton";
 import Divider from "../../../../common/Divider";
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import {
+  Card, 
+  CardContent,
+} from '@material-ui/core';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-// ovo izbrisi imamo styled components ocu u tome da uradis ovo isto :D
-// namuci se malo da naucis opet copy paste :D
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
+const DetailWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
-export default function Details({ user }) {
-    // i ovo izbrisi :D
-  const classes = useStyles();
+const DetailItem = styled.span`
+margin: 5px 0px;
+`
+
+export default function Details({ user, email }) {
 
   return (
     <Container>
-        <Card className={classes.root}>
+        <Card>
             <CardContent>
-              {/* unutar ove CardContent komponente -> ceo refactor :D */}
-              <AssignmentIndIcon fontSize="large" color="primary"/>
-              <Typography variant="body2" component="p">
-                Email: {user.email}
-                <br />
-                {user.gender === "male" ? <Typography  variant="body2" component="p">Pol: Muški</Typography > : <Typography  variant="body2" component="p">Pol: Ženski</Typography>}
-                Godine: {user.age}
-                <br />
-                Visina: {user.height}cm
-                <br />
-                Poštanski kod: {user.zipCode}
-              </Typography>
+              <DetailWrapper>
+                <DetailItem>Email: {email}</DetailItem>
+                <DetailItem>Poštanski broj: {user.zipCode}</DetailItem>
+                <DetailItem>Pol: {user.gender === 'male' ? 'Muški' : 'Ženski'}</DetailItem>
+                <DetailItem>Visina: {user.height} cm</DetailItem>
+                <DetailItem>Težina: {user.weight} kg</DetailItem>
+              </DetailWrapper>
             </CardContent>
         </Card>
       <Divider />
