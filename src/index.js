@@ -12,6 +12,7 @@ import { GlobalStyle } from "./styles";
 import * as serviceWorker from "./serviceWorker";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ForgotPassword from "./containers/ForgotPassword"
 
 ReactDOM.render(
   <Provider store={store}>
@@ -23,6 +24,7 @@ ReactDOM.render(
         <Route exact path="/registration" component={Registration} />
         <Route exact path="/" component={Home} />
         <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/forgot" component={ForgotPassword} />
       </Switch>
     </Router>
   </Provider>,
