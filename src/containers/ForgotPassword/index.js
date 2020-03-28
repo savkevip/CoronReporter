@@ -1,15 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Header from "../../common/Header";
-import { Button, TextField } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import history from "../../history";
 import styled from "styled-components";
 import { colors } from "../../utils/colors";
 import Divider from "../../common/Divider";
 import { publicAPI } from "../../utils/api";
+import CustomButton from "../../common/CustomButton"
 import {
         errorNotification,
         successNotification
     } from "../../utils/toastrs";
+
 
 const Container = styled.div`
     height: calc(100vh - 70px);
@@ -21,19 +23,16 @@ const Container = styled.div`
     margin: auto;
 `
 
-
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
 
-    const handleBackBtn = () => {
-        history.push("/login")
-    }
+    const handleBackBtn = () => history.push("/login")
 
     const handleSubmit = async () => {
         try{
-            publicAPI.post("/auth/forgot-password", email)
+            publicAPI.post("/auth/forgot-password", { email })
             history.push("/login")
-            successNotification("Lozinka uspešno poslata. Proverite Vaš email.")
+            successNotification("Lozinka uspešno promenjena.")
         } catch(error){
             errorNotification("Vaš email nije validan.")
         }
@@ -61,15 +60,12 @@ export default function ForgotPassword() {
 
                 <Divider/>
 
-                <Button
-                    style={{
-                    backgroundColor: colors.confirmedCase,
-                    color: colors.main
-                    }}
+                <CustomButton
+                    variant="contained"
+                    color="secondary"
                     onClick={handleSubmit}
-                >
-                    Potvrdi
-                </Button>
+                    label={"Potvrdi"}
+                />
             </Container>
         </>
     )
