@@ -3,7 +3,6 @@ import Details from "./components/Details";
 import Header from "../../common/Header";
 import CustomButton from "../../common/CustomButton";
 import Loader from "../../common/Loader";
-import Map from "../../common/Map";
 import AddIcon from "@material-ui/icons/Add";
 import LogOutIcon from "@material-ui/icons/Person";
 import history from "../../history";
