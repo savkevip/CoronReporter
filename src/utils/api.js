@@ -12,12 +12,12 @@ export const publicAPI = axios.create({
   baseURL: API_URL
 });
 
-export const privateAPI = axios.create({
+export const privateAPI = () => axios.create({
   baseURL: API_URL,
   headers: getHeaderConfig()
 });
 
-privateAPI.interceptors.response.use(null, error => {
+privateAPI().interceptors.response.use(null, error => {
   if (401 === error.response.status) {
     removeCookie("token");
     history.push("/login");

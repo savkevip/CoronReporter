@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import Divider from "../../../../common/Divider";
 import Sidebar from "../../../../common/Sidebar";
 import styled from "styled-components";
-import { 
-  Button, 
-  Select, 
+import {
+  Button,
+  Select,
   MenuItem,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle 
+  DialogTitle
 } from "@material-ui/core";
 import {
   errorNotification,
@@ -45,7 +45,7 @@ export default function Side({ user, open, setOpen }) {
     };
 
     try {
-      await privateAPI.put("/user/update", { ...data });
+      await privateAPI().put("/user/update", { ...data });
       successNotification("Uspešno ste ažurirali podatke.");
       setOpen(false);
     } catch (error) {
@@ -60,7 +60,7 @@ export default function Side({ user, open, setOpen }) {
 
   const handleDelete =  async () => {
     try {
-    await privateAPI.delete('/user/delete');
+    await privateAPI().delete('/user/delete');
     removeCookie("token");
     removeCookie("role");
     history.push("/login");
