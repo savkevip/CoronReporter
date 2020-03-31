@@ -4,22 +4,23 @@ import { getCookie, removeCookie } from "./coockie";
 
 const API_URL = "https://coronreporter-be.herokuapp.com/api";
 
-const getHeaderConfig = () => ({
-  Authorization: getCookie("token")
-});
-
 export const publicAPI = axios.create({
-  baseURL: API_URL
+  baseURL: process.env.REACT_APP_API_URL
 });
 
-export const privateAPI = () => axios.create({
-  baseURL: API_URL,
-  headers: getHeaderConfig()
+export const privateAPI = axios.create({
+  baseURL: process.env.REACT_APP_API_URL
 });
 
-privateAPI().interceptors.response.use(null, error => {
+privateAPI.interceptors.request.use(config => {
+  config.headers.Authorization = getCookie("token");
+  return config;
+});
+
+privateAPI.interceptors.response.use(null, error => {
   if (401 === error.response.status) {
     removeCookie("token");
+    removeCookie("role");
     history.push("/login");
   }
 
