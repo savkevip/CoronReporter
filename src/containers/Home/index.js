@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     (async function() {
       try {
-        const response = await privateAPI().get("/user/details");
+        const response = await privateAPI.get("/user/details");
         setCurrentUser(response.data);
         setLoading(false);
       } catch (e) {

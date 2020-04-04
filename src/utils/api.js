@@ -5,11 +5,11 @@ import { getCookie, removeCookie } from "./coockie";
 const API_URL = "https://coronreporter-be.herokuapp.com/api";
 
 export const publicAPI = axios.create({
-  baseURL: process.env.REACT_APP_API_URL
+  baseURL: API_URL
 });
 
 export const privateAPI = axios.create({
-  baseURL: process.env.REACT_APP_API_URL
+  baseURL: API_URL
 });
 
 privateAPI.interceptors.request.use(config => {
